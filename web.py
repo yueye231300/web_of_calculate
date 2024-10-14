@@ -2,7 +2,7 @@
 import streamlit as st
 import matplotlib.pyplot as plt
 import pandas as pd
-
+from io import BytesIO
 
 # def method
 def calculate_length(y):
@@ -80,12 +80,14 @@ if zdm is not None:
             ax.plot(yongshui_z_len['len'],yongshui_z_len['z'])
             st.pyplot(fig)
             st.write('下载数据')
-
+            # 数据下载
+            buffer = BytesIO()
+            fig.savefig(buffer, format='png')
+            buffer.seek(0)  # 重置缓冲区位置
             st.download_button(
-                label="下载雍水图",
-                data=plt.savefig('雍水图.png'),
-                file_name="plot.png",
+                label="下载雍水图像",
+                data=buffer,
+                file_name="雍水图像.png",
                 mime="image/png"
             )
-
 
