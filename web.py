@@ -82,6 +82,6 @@ if zdm is not None:
             st.write(p)
             st.write('下载数据')
             a = plt.savefig(p,'雍水曲线.png')
-            st.download_button('下载雍水曲线', a,file_name='雍水曲线')
+            st.download_button('下载雍水曲线', a,file_name='雍水曲线.png')
 
 
