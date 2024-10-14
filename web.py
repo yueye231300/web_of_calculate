@@ -38,7 +38,7 @@ with left_row:
     zdm = st.file_uploader('纵断面文件', type='csv')
 
 with right_row:
-    qiao= st.file_uploader('横断面文件', type='csv')
+    qiao= st.file_uploader('桥梁所在断面文件', type='csv')
 
 left_row_1, right_row_1 = st.columns(2)
 
@@ -78,7 +78,7 @@ if zdm is not None:
             ax.plot(yongshui_z_len['len'],yongshui_z_len['z'])
             p = fig
             st.write(p)
-
-
+            st.write('下载数据')
+            st.download_button('下载图片影响', p)
 
 
