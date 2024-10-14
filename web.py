@@ -10,7 +10,7 @@ def calculate_length(y):
     length = pd.DataFrame(columns=['len'])
     for i in range(len(y['NEAR_X'])):
         dis = ((y['NEAR_X'][i]-x_beginner)**2+(y['NEAR_Y'][i]-y_beginner)**2)**(0.5)
-        length = length.append({'len':dis},ignore_index=True)
+        length = length._append({'len':dis},ignore_index=True)
     return length
 
 
