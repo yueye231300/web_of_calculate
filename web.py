@@ -78,10 +78,14 @@ if zdm is not None:
             ax.scatter(jmd_z_len['len'],jmd_z_len['z'],marker="^",linewidths=0)
             ax.plot(zdm_z_len['len'],zdm_z_len['z'])
             ax.plot(yongshui_z_len['len'],yongshui_z_len['z'])
-            p = fig
-            st.write(p)
+            st.pyplot(fig)
             st.write('下载数据')
-            a = plt.savefig(p,'雍水曲线.png')
-            st.download_button('下载雍水曲线', a,file_name='雍水曲线.png')
+
+            st.download_button(
+                label="下载雍水图",
+                data=plt.savefig('雍水图.png'),
+                file_name="plot.png",
+                mime="image/png"
+            )
 
 
