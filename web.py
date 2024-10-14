@@ -53,19 +53,16 @@ st.subheader('对应雍水图像')
 if zdm is not None:
     if jmd is not None:
         if qiao is not None:
-            for zdm in zdm:
-                zdm = pd.read_csv(zdm)
+            zdm = pd.read_csv(zdm)
             beginner = zdm.iloc[0, 0:2]
             x_beginner = beginner[0]
             y_beginner = beginner[1]
 
-            for jmd in jmd:
-                near_file = pd.read_csv(jmd)
+            near_file = pd.read_csv(jmd)
             len_1 = calculate_length(near_file)
 # get the data
 
-            for qiao in qiao:
-                qiao = pd.read_csv(qiao)
+            qiao = pd.read_csv(qiao)
             jmd_z_len = hebing(near_file, len_1)
             zdm_z_len = hebing(zdm, zdm)
             qiao.sort_values(by='z', inplace=True)
