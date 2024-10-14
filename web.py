@@ -54,6 +54,8 @@ if zdm is not None:
     if jmd is not None:
         if qiao is not None:
             zdm = pd.read_csv(zdm)
+            name = zdm.name()
+            st.write(name)
             beginner = zdm.iloc[0, 0:2]
             x_beginner = beginner[0]
             y_beginner = beginner[1]
@@ -79,6 +81,7 @@ if zdm is not None:
             p = fig
             st.write(p)
             st.write('下载数据')
-            st.download_button('下载图片影响', p)
+            a = plt.savefig(p,'雍水曲线.png')
+            st.download_button('下载雍水曲线', a,file_name='雍水曲线')
 
 
