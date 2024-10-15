@@ -33,9 +33,17 @@ def limit(x,y):
             if zdm['x'][i]==qiao['x'][j]:
                 limitation = i+1
                 return limitation
+
+
+def max_i(x, y):
+    list_z = []
+    for i in range(len(x['z'])):
+        if x['z'][i]> y:
+            list_z.append(i)
+    return list_z
+
+
 # ui_marking
-
-
 st.set_page_config(
     page_title="雍水计算",
     page_icon="👋",
@@ -75,26 +83,29 @@ if zdm is not None:
 
             near_file = pd.read_csv(jmd)
             len_1 = calculate_length(near_file)
-# get the data
-
             qiao = pd.read_csv(qiao)
             jmd_z_len = hebing(near_file, len_1)
             zdm_z_len = hebing(zdm, zdm)
             qiao.sort_values(by='z', inplace=True)
             qiao_lower = qiao['z'][0]
             yongshui_dif =qiao_height-qiao_lower
-            limitation = limit(zdm, qiao)
-            zdm_z_len = zdm_z_len.iloc[:limitation]
             zdm_yongshui = pd.DataFrame()
+            limitation = limit(zdm, qiao)
+            zdm_plot = zdm_z_len.iloc[:limitation]
             zdm_yongshui.insert(zdm_yongshui.shape[1], 'z', zdm_z_len['z']+yongshui_dif)
             yongshui_z_len = hebing(zdm_yongshui, zdm)
-            # plot the jmd and zdm
+            # reshape the date
+            # get the limitation
+            yongshui_plot = yongshui_z_len[:limitation]
+            max_z = zdm['z'][limitation-1]
 
+            jmd_plot_i = max_i(jmd_z_len,max_z)
+            jmd_plot = jmd_z_len.iloc[jmd_plot_i]
 
             fig, ax = plt.subplots()
-            ax.scatter(jmd_z_len['len'], jmd_z_len['z'], marker="^", linewidths=0, color="#efba11",label='居民点')
-            ax.plot(zdm_z_len['len'], zdm_z_len['z'], color='#5177bd',label='深泓线')
-            ax.plot(yongshui_z_len['len'], yongshui_z_len['z'], color='#f3bf97',label='雍水线')
+            ax.scatter(jmd_plot['len'], jmd_plot['z'], marker="^", linewidths=0, color="#efba11",label='居民点')
+            ax.plot(zdm_plot['len'], zdm_plot['z'], color='#5177bd',label='深泓线')
+            ax.plot(yongshui_plot['len'], yongshui_plot['z'], color='#f3bf97',label='雍水线')
             plt.xlabel("距离/m", fontproperties=font)
             plt.ylabel('高程/m', fontproperties=font)
             plt.legend(fontsize=14, prop=font)
