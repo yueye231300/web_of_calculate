@@ -19,14 +19,22 @@ def calculate_length(y):
     return length
 
 
-def hebing(x,y):
+def hebing(x, y):
     x_len = pd.DataFrame()
     x_len.insert(x_len.shape[1],'z',x['z'])
     x_len.insert(x_len.shape[1],'len',y['len'])
     return x_len
 
 
+def limit(x,y):
+    len_dif = []
+    for i in range(len(x['x'])):
+        for j in range(len(y['x'])):
+            if zdm['x'][i]==qiao['x'][j]:
+                limitation = i+1
+                return limitation
 # ui_marking
+
 
 st.set_page_config(
     page_title="雍水计算",
@@ -75,11 +83,15 @@ if zdm is not None:
             qiao.sort_values(by='z', inplace=True)
             qiao_lower = qiao['z'][0]
             yongshui_dif =qiao_height-qiao_lower
+            limitation = limit(zdm, qiao)
+            zdm_z_len = zdm_z_len.iloc[:limitation]
             zdm_yongshui = pd.DataFrame()
-            zdm_yongshui.insert(zdm_yongshui.shape[1],'z',zdm['z']+yongshui_dif)
-            yongshui_z_len = hebing(zdm_yongshui,zdm)
-        # plot the jmd and zdm
-            fig,ax = plt.subplots()
+            zdm_yongshui.insert(zdm_yongshui.shape[1], 'z', zdm_z_len['z']+yongshui_dif)
+            yongshui_z_len = hebing(zdm_yongshui, zdm)
+            # plot the jmd and zdm
+
+
+            fig, ax = plt.subplots()
             ax.scatter(jmd_z_len['len'], jmd_z_len['z'], marker="^", linewidths=0, color="#efba11",label='居民点')
             ax.plot(zdm_z_len['len'], zdm_z_len['z'], color='#5177bd',label='深泓线')
             ax.plot(yongshui_z_len['len'], yongshui_z_len['z'], color='#f3bf97',label='雍水线')
