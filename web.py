@@ -112,8 +112,6 @@ if zdm_path is not None:
                 for i in range(len(bridge_path_1['name'])):
                     if bridge_path_1['name'][i]==zdm_path_1:
                         height = bridge_path_1['bridge_length'][i]
-                    else:
-                        height =0
             else:
                 height = 0
             yongshui_dif =height-qiao_lower
