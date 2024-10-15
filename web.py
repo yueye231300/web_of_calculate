@@ -81,7 +81,7 @@ with left_row:
     zdm_path = st.file_uploader('纵断面文件', type='csv')
 
 with right_row:
-    qiao_path= st.file_uploader('桥梁所在断面文件', type='csv')
+    qiao_path = st.file_uploader('桥梁所在断面文件', type='csv')
 
 jmd_path = st.file_uploader('居民点（包含near_x与near_y）', type='txt')
 
@@ -102,6 +102,7 @@ if zdm_path is not None:
             jmd_z_len = hebing(near_file, len_1)
             zdm_z_len = hebing(zdm, zdm)
             qiao.sort_values(by='z', inplace=True)
+            st.write(qiao)
             qiao_lower = qiao['z'][0]
             zdm_yongshui = pd.DataFrame()
             limitation = limit(zdm, qiao)
