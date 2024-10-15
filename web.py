@@ -102,7 +102,7 @@ if zdm_path is not None:
             hdm = qiao
             jmd_z_len = hebing(near_file, len_1)
             zdm_z_len = hebing(zdm, zdm)
-            qiao.sort_values(by='z', inplace=True)
+            qiao.sort_values(by='z', inplace=False)
             st.write(qiao)
             qiao_lower = qiao['z'][0]
             zdm_yongshui = pd.DataFrame()
