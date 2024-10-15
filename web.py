@@ -79,7 +79,7 @@ st.subheader('对应雍水图像')
 if zdm is not None:
     if jmd is not None:
         if qiao is not None:
-            # name = zdm.name()
+            st.write(zdm.name())
             zdm = pd.read_csv(zdm)
             # st.write(name)
             beginner = zdm.iloc[0, 0:2]
