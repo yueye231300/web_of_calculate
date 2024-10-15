@@ -3,6 +3,11 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import pandas as pd
 from io import BytesIO
+from matplotlib.font_manager import FontProperties  # 导入FontProperties
+
+# font setting
+font = FontProperties(fname="SimHei.ttf", size=14)
+
 
 # def method
 def calculate_length(y):
@@ -78,9 +83,9 @@ if zdm is not None:
             ax.scatter(jmd_z_len['len'], jmd_z_len['z'], marker="^", linewidths=0, color="#efba11",label='居民点')
             ax.plot(zdm_z_len['len'], zdm_z_len['z'], color='#5177bd',label='深泓线')
             ax.plot(yongshui_z_len['len'], yongshui_z_len['z'], color='#f3bf97',label='雍水线')
-            plt.xlabel("距离/m")
-            plt.ylabel('高程/m')
-            plt.legend(fontsize=14)
+            plt.xlabel("距离/m", fontproperties=font)
+            plt.ylabel('高程/m', fontproperties=font)
+            plt.legend(fontsize=14, prop=font)
             st.pyplot(fig)
             st.write('下载数据')
             # 数据下载
