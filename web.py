@@ -91,7 +91,7 @@ if zdm_path is not None:
     if jmd_path is not None:
         if qiao_path is not None:
             zdm = pd.read_csv(zdm_path)
-            zdm_path = str(zdm_path)
+            zdm_path_name = zdm_path.name
             # st.write(name)
             beginner = zdm.iloc[0, 0:2]
             x_beginner = beginner[0]
@@ -107,7 +107,7 @@ if zdm_path is not None:
             limitation = limit(zdm, qiao)
             zdm_plot = zdm_z_len.iloc[:limitation]
             zdm_path_1 = zdm_path[-10:-8]
-            st.write(zdm_path)
+            st.write(zdm_path_name)
             if chapter is not None:
                 for i in range(len(bridge_path_1['name'])):
                     if bridge_path_1['name'][i]==zdm_path_1:
