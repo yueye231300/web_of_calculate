@@ -50,13 +50,13 @@ st.set_page_config(
 )
 
 st.header('雍水计算')
-st.subheader("上传数据")
 
+st.subheader('流域选择')
 # select the chapter
 chapter = st.selectbox("选择你做的流域", ('陡沟','漳腊河岷江北源段',None))
 
 
-
+st.subheader("上传数据")
 # date load
 left_row, right_row = st.columns(2)
 
