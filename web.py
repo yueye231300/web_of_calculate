@@ -52,6 +52,11 @@ st.set_page_config(
 st.header('雍水计算')
 st.subheader("上传数据")
 
+# select the chapter
+chapter = st.selectbox("选择你做的流域", ('陡沟','漳腊河岷江北源段'),default=None)
+
+
+
 # date load
 left_row, right_row = st.columns(2)
 
@@ -80,7 +85,6 @@ if zdm is not None:
             beginner = zdm.iloc[0, 0:2]
             x_beginner = beginner[0]
             y_beginner = beginner[1]
-
             near_file = pd.read_csv(jmd)
             len_1 = calculate_length(near_file)
             qiao = pd.read_csv(qiao)
