@@ -107,7 +107,7 @@ if zdm_path is not None:
             limitation = limit(zdm, qiao)
             zdm_plot = zdm_z_len.iloc[:limitation]
             zdm_path_1 = zdm_path_name[-9:-7]
-            st.write(zdm_path_1)
+
             if chapter is not None:
                 for i in range(len(bridge_path_1['name'])):
                     if bridge_path_1['name'][i]==zdm_path_1:
@@ -115,6 +115,7 @@ if zdm_path is not None:
             else:
                 height = 0
             yongshui_dif =height-qiao_lower
+            st.write(yongshui_dif)
             zdm_yongshui.insert(zdm_yongshui.shape[1], 'z', zdm_z_len['z']+yongshui_dif)
             yongshui_z_len = hebing(zdm_yongshui, zdm)
             # reshape the date
