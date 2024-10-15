@@ -106,7 +106,7 @@ if zdm_path is not None:
             zdm_yongshui = pd.DataFrame()
             limitation = limit(zdm, qiao)
             zdm_plot = zdm_z_len.iloc[:limitation]
-            # zdm_path_1 = zdm_path[-10:-8]
+            zdm_path_1 = zdm_path_name[-9:-7]
             st.write(zdm_path_name)
             if chapter is not None:
                 for i in range(len(bridge_path_1['name'])):
