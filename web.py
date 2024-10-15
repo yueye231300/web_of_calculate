@@ -99,13 +99,14 @@ if zdm_path is not None:
             near_file = pd.read_csv(jmd_path)
             len_1 = calculate_length(near_file)
             qiao = pd.read_csv(qiao_path)
+            hdm = qiao
             jmd_z_len = hebing(near_file, len_1)
             zdm_z_len = hebing(zdm, zdm)
             qiao.sort_values(by='z', inplace=True)
             st.write(qiao)
             qiao_lower = qiao['z'][0]
             zdm_yongshui = pd.DataFrame()
-            limitation = limit(zdm, qiao)
+            limitation = limit(zdm, hdm)
             zdm_plot = zdm_z_len.iloc[:limitation]
             zdm_path_1 = zdm_path_name[-9:-7]
 
