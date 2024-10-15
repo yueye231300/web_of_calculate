@@ -80,7 +80,7 @@ if zdm is not None:
             ax.plot(yongshui_z_len['len'], yongshui_z_len['z'], color='#f3bf97',label='雍水线')
             plt.xlabel("距离/m")
             plt.ylabel('高程/m')
-            plt.legend(True)
+            plt.legend(fontsize=14)
             st.pyplot(fig)
             st.write('下载数据')
             # 数据下载
