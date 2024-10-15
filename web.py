@@ -117,6 +117,7 @@ if zdm_path is not None:
             yongshui_dif =height-qiao_lower
             st.write(yongshui_dif)
             st.write(height)
+            st.wrtite(qiao_lower)
             zdm_yongshui.insert(zdm_yongshui.shape[1], 'z', zdm_z_len['z']+yongshui_dif)
             yongshui_z_len = hebing(zdm_yongshui, zdm)
             # reshape the date
