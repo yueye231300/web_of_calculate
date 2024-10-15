@@ -68,7 +68,7 @@ if chapter is not None:
     for i in range(len(bridge_path['名称'])):
         name_1 = bridge_path['名称'][i]
         name_2 = name_1[-2:]
-        bridge_path_1 = bridge_path_1.append({'name': name_2}, ignore_index=True)
+        bridge_path_1 = bridge_path_1._append({'name': name_2}, ignore_index=True)
     bridge_path_1.insert(bridge_path_1.shape[1], 'bridge_length', bridge_path['桥面高'])
 
 
