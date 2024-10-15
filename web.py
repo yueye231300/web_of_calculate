@@ -61,33 +61,33 @@ st.subheader("上传数据")
 left_row, right_row = st.columns(2)
 
 with left_row:
-    zdm = st.file_uploader('纵断面文件', type='csv')
+    zdm_path = st.file_uploader('纵断面文件', type='csv')
 
 with right_row:
-    qiao= st.file_uploader('桥梁所在断面文件', type='csv')
+    qiao_path= st.file_uploader('桥梁所在断面文件', type='csv')
 
 left_row_1, right_row_1 = st.columns(2)
 
 with left_row_1:
-    jmd = st.file_uploader('居民点（包含near_x与near_y）', type='txt')
+    jmd_path = st.file_uploader('居民点（包含near_x与near_y）', type='txt')
 
 with right_row_1:
     qiao_height = st.number_input('输入桥的高度')
 
 
 st.subheader('对应雍水图像')
-if zdm is not None:
-    if jmd is not None:
-        if qiao is not None:
-            st.write(zdm.name())
-            zdm = pd.read_csv(zdm)
+if zdm_path is not None:
+    if jmd_path is not None:
+        if qiao_path is not None:
+            zdm = pd.read_csv(zdm_path)
+            st.write(zdm_path.name)
             # st.write(name)
             beginner = zdm.iloc[0, 0:2]
             x_beginner = beginner[0]
             y_beginner = beginner[1]
-            near_file = pd.read_csv(jmd)
+            near_file = pd.read_csv(jmd_path)
             len_1 = calculate_length(near_file)
-            qiao = pd.read_csv(qiao)
+            qiao = pd.read_csv(qiao_path)
             jmd_z_len = hebing(near_file, len_1)
             zdm_z_len = hebing(zdm, zdm)
             qiao.sort_values(by='z', inplace=True)
