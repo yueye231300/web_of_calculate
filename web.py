@@ -6,7 +6,7 @@ from io import BytesIO
 from matplotlib.font_manager import FontProperties  # 导入FontProperties
 
 # font setting
-font = FontProperties(fname="SimHei.ttf", size=14)
+font = FontProperties(fname="font/SimSun.ttf", size=14)
 
 
 # def method
