@@ -53,7 +53,7 @@ st.header('雍水计算')
 
 st.subheader('流域选择')
 # select the chapter
-chapter = st.selectbox("选择你做的流域", ('陡沟','漳腊河岷江北源段',None))
+chapter = st.selectbox("选择你做的流域", (None,'陡沟','漳腊河岷江北源段'))
 
 
 st.subheader("上传数据")
