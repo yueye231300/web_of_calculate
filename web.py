@@ -69,15 +69,15 @@ if zdm is not None:
             zdm_z_len = hebing(zdm, zdm)
             qiao.sort_values(by='z', inplace=True)
             qiao_lower = qiao['z'][0]
-            yongshui_dif =qiao_height -qiao_lower
+            yongshui_dif =qiao_height-qiao_lower
             zdm_yongshui = pd.DataFrame()
             zdm_yongshui.insert(zdm_yongshui.shape[1],'z',zdm['z']+yongshui_dif)
             yongshui_z_len = hebing(zdm_yongshui,zdm)
         # plot the jmd and zdm
             fig,ax = plt.subplots()
-            ax.scatter(jmd_z_len['len'],jmd_z_len['z'],marker="^",linewidths=0)
-            ax.plot(zdm_z_len['len'],zdm_z_len['z'])
-            ax.plot(yongshui_z_len['len'],yongshui_z_len['z'])
+            ax.scatter(jmd_z_len['len'], jmd_z_len['z'], marker="^", linewidths=0, c="#efba11")
+            ax.plot(zdm_z_len['len'], zdm_z_len['z'], c='#5177bd')
+            ax.plot(yongshui_z_len['len'], yongshui_z_len['z'], c='#f3bf97')
             st.pyplot(fig)
             st.write('下载数据')
             # 数据下载
