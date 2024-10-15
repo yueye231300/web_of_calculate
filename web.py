@@ -53,7 +53,24 @@ st.header('雍水计算')
 
 st.subheader('流域选择')
 # select the chapter
-chapter = st.selectbox("选择你做的流域", (None,'陡沟','漳腊河岷江北源段'))
+chapter = st.selectbox("选择你做的流域", (None, '陡沟', '漳腊河岷江北源段', '漳腊河流域漳腊河', '牟尼沟岷江北源段'))
+if chapter is not None:
+    if chapter == '陡沟':
+        path = 'bridge/陡沟桥梁数据.csv'
+    if chapter == '漳腊河岷江北源段':
+        path = 'bridge/漳腊河岷江北源段桥梁数据.csv'
+    if chapter == '漳腊河流域漳腊河':
+        path = 'bridge/漳腊河流域漳腊河桥梁数据.csv'
+    if chapter == '牟尼沟岷江北源段':
+        path = 'bridge/牟尼沟岷江北源段桥梁数据.csv'
+    bridge_path = pd.read_csv(path)
+    bridge_path_1 = pd.DataFrame(columns=['name'])
+    for i in range(len(bridge_path['名称'])):
+        name_1 = bridge_path['名称'][i]
+        name_2 = name_1[-2:]
+        bridge_path_1 = bridge_path_1.append({'name': name_2}, ignore_index=True)
+    bridge_path_1.insert(bridge_path_1.shape[1], 'bridge_length', bridge_path['桥面高'])
+
 
 
 st.subheader("上传数据")
@@ -66,21 +83,14 @@ with left_row:
 with right_row:
     qiao_path= st.file_uploader('桥梁所在断面文件', type='csv')
 
-left_row_1, right_row_1 = st.columns(2)
-
-with left_row_1:
-    jmd_path = st.file_uploader('居民点（包含near_x与near_y）', type='txt')
-
-with right_row_1:
-    qiao_height = st.number_input('输入桥的高度')
-
+jmd_path = st.file_uploader('居民点（包含near_x与near_y）', type='txt')
 
 st.subheader('对应雍水图像')
 if zdm_path is not None:
     if jmd_path is not None:
         if qiao_path is not None:
             zdm = pd.read_csv(zdm_path)
-            st.write(zdm_path.name)
+
             # st.write(name)
             beginner = zdm.iloc[0, 0:2]
             x_beginner = beginner[0]
@@ -92,10 +102,17 @@ if zdm_path is not None:
             zdm_z_len = hebing(zdm, zdm)
             qiao.sort_values(by='z', inplace=True)
             qiao_lower = qiao['z'][0]
-            yongshui_dif =qiao_height-qiao_lower
             zdm_yongshui = pd.DataFrame()
             limitation = limit(zdm, qiao)
             zdm_plot = zdm_z_len.iloc[:limitation]
+            zdm_path_1 = zdm_path[-9:-7]
+            if chapter is not None:
+                for i in range(len(bridge_path_1['name'])):
+                    if bridge_path_1['name'][i]==zdm_path_1:
+                        height = bridge_path_1['bridge_length'][i]
+            else:
+                height = 0
+            yongshui_dif =height-qiao_lower
             zdm_yongshui.insert(zdm_yongshui.shape[1], 'z', zdm_z_len['z']+yongshui_dif)
             yongshui_z_len = hebing(zdm_yongshui, zdm)
             # reshape the date
