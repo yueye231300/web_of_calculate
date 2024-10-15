@@ -102,7 +102,7 @@ if zdm_path is not None:
             jmd_z_len = hebing(near_file, len_1)
             zdm_z_len = hebing(zdm, zdm)
             qiao.sort_values(by='z', inplace=True)
-            qiao_lower = qiao['z'][0]
+            qiao_lower = qiao['z'][-1]
             zdm_yongshui = pd.DataFrame()
             limitation = limit(zdm, qiao)
             zdm_plot = zdm_z_len.iloc[:limitation]
