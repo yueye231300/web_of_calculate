@@ -75,9 +75,9 @@ if zdm is not None:
             yongshui_z_len = hebing(zdm_yongshui,zdm)
         # plot the jmd and zdm
             fig,ax = plt.subplots()
-            ax.scatter(jmd_z_len['len'], jmd_z_len['z'], marker="^", linewidths=0, c="#efba11")
-            ax.plot(zdm_z_len['len'], zdm_z_len['z'], c='#5177bd')
-            ax.plot(yongshui_z_len['len'], yongshui_z_len['z'], c='#f3bf97')
+            ax.scatter(jmd_z_len['len'], jmd_z_len['z'], marker="^", linewidths=0, color="#efba11")
+            ax.plot(zdm_z_len['len'], zdm_z_len['z'], color='#5177bd')
+            ax.plot(yongshui_z_len['len'], yongshui_z_len['z'], color='#f3bf97')
             st.pyplot(fig)
             st.write('下载数据')
             # 数据下载
