@@ -91,7 +91,7 @@ if zdm_path is not None:
     if jmd_path is not None:
         if qiao_path is not None:
             zdm = pd.read_csv(zdm_path)
-
+            zdm_path = str(zdm_path)
             # st.write(name)
             beginner = zdm.iloc[0, 0:2]
             x_beginner = beginner[0]
