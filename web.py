@@ -7,7 +7,8 @@ from io import StringIO
 from matplotlib.font_manager import FontProperties  # 导入FontProperties
 
 # font setting
-font = FontProperties(fname="font/SimSun.ttf", size=9)
+font = FontProperties(fname="font/SimSun.ttf", size=10)
+font_1 = FontProperties(fname="font/SimSun.ttf", size=8)
 
 
 # def method
@@ -134,7 +135,7 @@ if zdm_path is not None:
             ax.plot(yongshui_plot['len'], yongshui_plot['z'], color='#f3bf97', label='雍水线')
             plt.xlabel("距离/m", fontproperties=font)
             plt.ylabel('高程/m', fontproperties=font)
-            plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=3, fontsize=8, prop=font)
+            plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=3, fontsize=8, prop=font_1)
             st.pyplot(fig)
             st.write('下载数据')
             # 数据下载
