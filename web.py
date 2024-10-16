@@ -6,7 +6,7 @@ from io import BytesIO
 from matplotlib.font_manager import FontProperties  # 导入FontProperties
 
 # font setting
-font = FontProperties(fname="font/SimSun.ttf", size=14)
+font = FontProperties(fname="font/SimSun.ttf", size=12)
 
 
 # def method
@@ -70,7 +70,6 @@ if chapter is not None:
         name_2 = name_1[-2:]
         bridge_path_1 = bridge_path_1._append({'name': name_2}, ignore_index=True)
     bridge_path_1.insert(bridge_path_1.shape[1], 'bridge_length', bridge_path['桥面高'])
-    st.write(bridge_path_1)
 
 
 st.subheader("上传数据")
@@ -115,9 +114,7 @@ if zdm_path is not None:
             else:
                 height = 0
             yongshui_dif =height-qiao_lower
-            st.write(yongshui_dif)
-            st.write(height)
-            st.write(qiao_lower)
+            st.write('桥梁水面高程',height)
             zdm_yongshui.insert(zdm_yongshui.shape[1], 'z', zdm_z_len['z']+yongshui_dif)
             yongshui_z_len = hebing(zdm_yongshui, zdm)
             # reshape the date
@@ -128,13 +125,14 @@ if zdm_path is not None:
             jmd_plot_i = max_i(jmd_z_len,max_z)
             jmd_plot = jmd_z_len.iloc[jmd_plot_i]
 
+            save_path = zdm_path_name[:-4]
             fig, ax = plt.subplots()
-            ax.scatter(jmd_plot['len'], jmd_plot['z'], marker="^", linewidths=0, color="#efba11",label='居民点')
-            ax.plot(zdm_plot['len'], zdm_plot['z'], color='#5177bd',label='深泓线')
-            ax.plot(yongshui_plot['len'], yongshui_plot['z'], color='#f3bf97',label='雍水线')
+            ax.scatter(jmd_plot['len'], jmd_plot['z'], marker="^", linewidths=0, color="#efba11", label='居民点')
+            ax.plot(zdm_plot['len'], zdm_plot['z'], color='#5177bd', label='深泓线')
+            ax.plot(yongshui_plot['len'], yongshui_plot['z'], color='#f3bf97', label='雍水线')
             plt.xlabel("距离/m", fontproperties=font)
             plt.ylabel('高程/m', fontproperties=font)
-            plt.legend(fontsize=14, prop=font)
+            plt.legend(fontsize=12, prop=font, bbox_to_anchor=(1.13, 1.25))
             st.pyplot(fig)
             st.write('下载数据')
             # 数据下载
@@ -144,7 +142,7 @@ if zdm_path is not None:
             st.download_button(
                 label="下载雍水图像",
                 data=buffer,
-                file_name="雍水图像.png",
+                file_name=f"{save_path}.png",
                 mime="image/png"
             )
 
