@@ -3,6 +3,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import pandas as pd
 from io import BytesIO
+from io import StringIO
 from matplotlib.font_manager import FontProperties  # 导入FontProperties
 
 # font setting
@@ -115,6 +116,7 @@ if zdm_path is not None:
                 height = 0
             yongshui_dif =height-qiao_lower
             st.write('桥梁水面高程',height)
+            st.write('桥梁横断面最低点',qiao_lower)
             zdm_yongshui.insert(zdm_yongshui.shape[1], 'z', zdm_z_len['z']+yongshui_dif)
             yongshui_z_len = hebing(zdm_yongshui, zdm)
             # reshape the date
@@ -136,13 +138,17 @@ if zdm_path is not None:
             st.pyplot(fig)
             st.write('下载数据')
             # 数据下载
+            left_columns_2,right_columns_2 = st.columns(2)
             buffer = BytesIO()
             fig.savefig(buffer, format='png')
             buffer.seek(0)  # 重置缓冲区位置
-            st.download_button(
-                label="下载雍水图像",
-                data=buffer,
-                file_name=f"{save_path}.png",
-                mime="image/png"
-            )
 
+            # 将数据框转换为 CSV 格式
+            csv = zdm_z_len.to_csv(index=False)
+            # 使用 StringIO 将 CSV 字符串转换为字节流
+            buffer_1 = StringIO(csv)
+            with left_columns_2:
+                st.download_button(label="下载雍水图像", data=buffer, file_name=f"{save_path}.png", mime="image/png")
+
+            with right_columns_2:
+                st.download_button(label='居民点距上游距离以及高程数据', data=buffer.getvalue(), file_name=f'{save_path}_jmd.csv', mime='text/csv')
