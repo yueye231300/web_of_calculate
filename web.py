@@ -41,7 +41,7 @@ def max_i(x, y,t):
     list_z = []
     for i in range(len(x['z'])):
         if x['z'][i]> y['z'][t-1]:
-            if x['len'][i]> y['len'][t-1]:
+            if x['len'][i]< y['len'][t-1]:
                 list_z.append(i)
     return list_z
 
