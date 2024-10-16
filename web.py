@@ -37,11 +37,12 @@ def limit(x,y):
                 return limitation
 
 
-def max_i(x, y):
+def max_i(x, y,t):
     list_z = []
     for i in range(len(x['z'])):
-        if x['z'][i]> y:
-            list_z.append(i)
+        if x['z'][i]> y['z'][t-1]:
+            if x['len'][i]> y['len'][t-1]:
+                list_z.append(i)
     return list_z
 
 
@@ -123,9 +124,7 @@ if zdm_path is not None:
             # reshape the date
             # get the limitation
             yongshui_plot = yongshui_z_len[:limitation]
-            max_z = zdm['z'][limitation-1]
-
-            jmd_plot_i = max_i(jmd_z_len,max_z)
+            jmd_plot_i = max_i(jmd_z_len,zdm,limitation)
             jmd_plot = jmd_z_len.iloc[jmd_plot_i]
 
             save_path = zdm_path_name[:-7]
