@@ -162,4 +162,4 @@ if zdm_path is not None:
             with left_columns_2:
                 st.download_button(label="下载雍水图像", data=buffer, file_name=f"{save_path}.png", mime="image/png")
             with right_columns_2:
-                st.download_button(label="下载数据 CSV", data=buffer_1, file_name=f"{save_path}_jmd.csv", mime="text/csv")
+                st.download_button(label="下载数据(居民距离以及高度) CSV", data=buffer_1.getvalue(), file_name=f"{save_path}_jmd.csv", mime= "text/csv")
