@@ -128,28 +128,38 @@ if zdm_path is not None:
             jmd_plot = jmd_z_len.iloc[jmd_plot_i]
 
             save_path = zdm_path_name[:-7]
+            # 创建图像和绘制数据
             fig, ax = plt.subplots()
             ax.scatter(jmd_plot['len'], jmd_plot['z'], marker="^", linewidths=0, color="#efba11", label='居民点')
             ax.plot(zdm_plot['len'], zdm_plot['z'], color='#5177bd', label='深泓线')
             ax.plot(yongshui_plot['len'], yongshui_plot['z'], color='#f3bf97', label='雍水线')
+
+            # 设置图像标签和轴
             plt.xlabel("距离/m", fontproperties=font)
             plt.ylabel('高程/m', fontproperties=font)
-            plt.xlim(0, zdm_plot['len'].max()*1.1)
-            plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=3, fontsize=8, prop=font_1)
+            plt.xlim(0, zdm_plot['len'].max() * 1.1)
+
+            # 设置图例位置，确保图例在图像下方
+            legend = plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=3, fontsize=8, prop=font_1)
+
+            # 在 Streamlit 中显示图像
             st.pyplot(fig)
+
+            # 创建布局列
             st.write('下载数据')
-            # 数据下载
-            left_columns_2,right_columns_2 = st.columns(2)
+            left_columns_2, right_columns_2 = st.columns(2)
+
+            # 保存图像并包含图例
             buffer = BytesIO()
-            fig.savefig(buffer, format='png')
+            fig.savefig(buffer, format='png', bbox_inches='tight', bbox_extra_artists=[legend])  # 确保图例包含在图像中
             buffer.seek(0)  # 重置缓冲区位置
 
             # 将数据框转换为 CSV 格式
             csv = zdm_z_len.to_csv(index=False)
-            # 使用 StringIO 将 CSV 字符串转换为字节流
             buffer_1 = StringIO(csv)
+
+            # 生成下载按钮
             with left_columns_2:
                 st.download_button(label="下载雍水图像", data=buffer, file_name=f"{save_path}.png", mime="image/png")
-
             with right_columns_2:
-                st.download_button(label='居民点距上游距离以及高程数据', data=buffer_1.getvalue(), file_name=f'{save_path}_jmd.csv', mime='text/csv')
+                st.download_button(label="下载数据 CSV", data=buffer_1, file_name=f"{save_path}_jmd.csv", mime="text/csv")
