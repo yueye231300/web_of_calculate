@@ -132,7 +132,7 @@ if zdm_path is not None:
             ax.plot(yongshui_plot['len'], yongshui_plot['z'], color='#f3bf97', label='雍水线')
             plt.xlabel("距离/m", fontproperties=font)
             plt.ylabel('高程/m', fontproperties=font)
-            plt.legend(fontsize=12, prop=font, bbox_to_anchor=(1.13, 1.25))
+            plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=3, fontsize=10,prop=font)
             st.pyplot(fig)
             st.write('下载数据')
             # 数据下载
