@@ -7,7 +7,7 @@ from io import StringIO
 from matplotlib.font_manager import FontProperties  # 导入FontProperties
 
 # font setting
-font = FontProperties(fname="font/SimSun.ttf", size=12)
+font = FontProperties(fname="font/SimSun.ttf", size=9)
 
 
 # def method
@@ -71,7 +71,7 @@ if chapter is not None:
         name_2 = name_1[-2:]
         bridge_path_1 = bridge_path_1._append({'name': name_2}, ignore_index=True)
     bridge_path_1.insert(bridge_path_1.shape[1], 'bridge_length', bridge_path['桥面高'])
-
+    st.write(bridge_path)
 
 st.subheader("上传数据")
 # date load
@@ -127,14 +127,14 @@ if zdm_path is not None:
             jmd_plot_i = max_i(jmd_z_len,max_z)
             jmd_plot = jmd_z_len.iloc[jmd_plot_i]
 
-            save_path = zdm_path_name[:-4]
+            save_path = zdm_path_name[:-7]
             fig, ax = plt.subplots()
             ax.scatter(jmd_plot['len'], jmd_plot['z'], marker="^", linewidths=0, color="#efba11", label='居民点')
             ax.plot(zdm_plot['len'], zdm_plot['z'], color='#5177bd', label='深泓线')
             ax.plot(yongshui_plot['len'], yongshui_plot['z'], color='#f3bf97', label='雍水线')
             plt.xlabel("距离/m", fontproperties=font)
             plt.ylabel('高程/m', fontproperties=font)
-            plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=3, fontsize=8,prop=font)
+            plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=3, fontsize=8, prop=font)
             st.pyplot(fig)
             st.write('下载数据')
             # 数据下载
@@ -151,4 +151,4 @@ if zdm_path is not None:
                 st.download_button(label="下载雍水图像", data=buffer, file_name=f"{save_path}.png", mime="image/png")
 
             with right_columns_2:
-                st.download_button(label='居民点距上游距离以及高程数据', data=buffer.getvalue(), file_name=f'{save_path}_jmd.csv', mime='text/csv')
+                st.download_button(label='居民点距上游距离以及高程数据', data=buffer_1.getvalue(), file_name=f'{save_path}_jmd.csv', mime='text/csv')
