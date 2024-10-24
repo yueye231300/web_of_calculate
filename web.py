@@ -133,6 +133,12 @@ def nl(num_of_lines):
     for i in range(num_of_lines):
         st.write(" ")
 
+def limit_1(x,y):
+    for i in range(len(x['x'])):
+        for j in range(len(y['x'])):
+            if x['x'][i]==y['x'][j]:
+                limitation = i
+                return limitation
 
 def hl_calculate(hl_z_len_1,zy_jiedian,xy_jiedian):
     zy_hl = []
@@ -377,9 +383,9 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
     hdm_zy_z_len = hebing(hdm_zy, hdm_zy)
     hdm_xy_z_len = hebing(hdm_xy, hdm_xy)
     # 寻找三横一纵节点,得到的结果是纵断面的索引号，需要注意
-    qiao_jiedian = limit(zdm, qiao)
-    hdm_zy_jiedian = limit(zdm, hdm_zy)
-    hdm_xy_jiedian = limit(zdm, hdm_xy)
+    qiao_jiedian = limit_1(zdm, qiao)
+    hdm_zy_jiedian = limit_1(zdm, hdm_zy)
+    hdm_xy_jiedian = limit_1(zdm, hdm_xy)
 
     # 用于计算三个节点到初始位置的距离，可以用来作为图像节点
     qiao_length = zdm['len'][qiao_jiedian]
