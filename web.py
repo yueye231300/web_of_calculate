@@ -89,12 +89,6 @@ class MeasuredSection(BaseSection):
 
     def element(self, h: float):
         x, y = list(zip(*self.coords))
-        if h < min(y):
-            print('水位低于河底！')
-            raise ValueError
-        if h > max(y):
-            print('水位高于堤顶！')
-            raise ValueError
         s = 0
         ka = 0
         b = 0
