@@ -587,3 +587,24 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
 
             # 在 Streamlit 中显示图像
             st.pyplot(fig1)
+            # 创建布局列
+            st.write('溃决数据下载')
+            left_columns_5, right_columns_5= st.columns(2)
+
+            # 保存图像并包含图例
+            buffer2 = BytesIO()
+            fig1.savefig(buffer2, format='png', bbox_inches='tight', bbox_extra_artists=[legend])  # 确保图例包含在图像中
+            buffer2.seek(0)  # 重置缓冲区位置
+            save_result = {'S断面': A,'S阻':S,'R1':S/A,'泓线长':hongxian,'阻水库容':W,'中游输入流量':zy_hl,'下游汇流数据':xy_hl,'Q_m':Q_m,'Q_m中游':Q_lm_zy,'Q_m下游':Q_lm_xy}
+            save_result =pd.DataFrame(save_result)
+
+            # 将数据框转换为 CSV 格式
+            csv = save_result.to_csv(index=False)
+            buffer_3 = StringIO(csv)
+
+            # 生成下载按钮
+            with left_columns_5:
+                st.download_button(label="下载溃决图像", data=buffer2, file_name=f"{save_path}溃决.png", mime="image/png")
+            with right_columns_5:
+                st.download_button(label="下载溃决计算结果", data=buffer_3.getvalue(),
+                                   file_name=f"{save_path}_溃决计算.csv", mime="text/csv")
