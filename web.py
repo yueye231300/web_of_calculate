@@ -535,7 +535,7 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
         # Display the plot in Streamlit
         st.plotly_chart(fig)
         qiao_max = qiao['z'].max
-        Q_max = qiao_section.manning(qiao_max,0.03,0.01)[element]
+        Q_max = qiao_section.element(qiao_max)
         Q_MAX = Q_max['Q']
 
         st.write("请给出对应的流量数据")
