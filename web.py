@@ -568,13 +568,11 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
             jmd_plot_2 =jmd_z_len[~jmd_z_len.index.isin(jmd_plot_i)]
             ax.scatter(jmd_plot_2['len'], jmd_plot_2['z'], marker="^", linewidths=0, color="#efba11", label='居民点')
             ax.plot(zdm_plot_2['len'], zdm_plot_2['z'], color='#5177bd', label='深泓线')
-            ax.plot(yongshui_plot['len'], yongshui_plot['z'], color='#f3bf97', label='雍水线')
             ax.plot(plot_H['len'], plot_H['height'], color='blue', label='溃决水线')
             # 设置图像标签和轴
             plt.xlabel("距离/m", fontproperties=font)
             plt.ylabel('高程/m', fontproperties=font)
             plt.xlim(0, zdm_plot_2['len'].max() * 1.1)
-
             # 设置图例位置，确保图例在图像下方
             legend = plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=3, fontsize=8, prop=font_1)
 
