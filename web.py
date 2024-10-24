@@ -599,7 +599,7 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
             save_result =pd.DataFrame(save_result)
 
             # 将数据框转换为 CSV 格式
-            csv = save_result.to_csv(index=False)
+            csv = save_result.to_csv(index=False,encoding='utf-8')
             buffer_3 = StringIO(csv)
             # 生成下载按钮
             with left_columns_5:
