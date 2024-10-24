@@ -139,6 +139,22 @@ def nl(num_of_lines):
         st.write(" ")
 
 
+def hl_calculate(hl_z_len_1,zy_jiedian,xy_jiedian):
+    zy_hl = []
+    xy_hl = []
+    for i in range(len(hl_z_len_1['z'])):
+        if hl_z_len_1['z'][i]<zdm['z'][zy_jiedian] and hl_z_len_1['len'][i]<zdm['len'][zy_jiedian]:
+            zy_hl.append(i)
+        elif zdm['z'][zy_jiedian] < hl_z_len_1['z'][i] < zdm['z'][xy_jiedian] and zdm['len'][zy_jiedian] < \
+                hl_z_len_1['len'][i] < zdm['len'][xy_jiedian]:
+            xy_hl.append(i)
+    return zy_hl,xy_hl
+
+
+
+
+
+
 # def method
 def calculate_length(y):
     #x,y is a list and x is used to calculate the length
@@ -462,7 +478,7 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
 
     # 创建折线图
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=water_levels, y=flows, mode='lines+markers', name='流量(Q)'))
+    fig.add_trace(go.Scatter(x=water_levels, y=flows, mode='lines', name='流量(Q)'))
 
     # 设置图形标题和标签
     fig.update_layout(title='水位与流量关系图',
@@ -474,3 +490,19 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
     # 显示结果表格
     st.subheader('水位与流量及断面面积表格')
     st.dataframe(df_results)
+    st.subheader('多支汇流计算')
+    hl_path = st.file_uploader('多支汇流数据', type='csv')
+    hl = pd.read_csv(hl_path)
+    hl_length = calculate_length(hl)
+    hl_z_len= hebing(hl,hl_length)
+    zy_hl,xy_hl = hl_calculate(hl_z_len,hdm_zy_jiedian,hdm_xy_jiedian)
+    st.write('中游断面汇流的有：')
+    st.write(zy_hl)
+    st.write('下游断面汇流的有：')
+    st.write(xy_hl)
+    st.write("请给出对应的流量数据")
+    left_columns_4, right_columns_4 = st.columns(2)
+    with left_columns_4:
+        zy_hl = st.number_input('输入中游支流数据')
+    with right_columns_4:
+        xy_hl = st.number_input('输入下游汇流数据')
