@@ -391,8 +391,7 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
     # 水利计算尝试
     # 桥面高程一
     h_1 = height
-    # to do 桥面高程.
-    # 类型补充
+    # to do 桥面高程
     qiao_section = MeasuredSection(qiao_zb)
     element = qiao_section.element(h_1)
     A = element['A']
@@ -434,7 +433,13 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
     # 流量计算
     Q_lm_zy = calculate_len_Q(W, L_zy)
     Q_lm_xy = calculate_len_Q(W, L_xy)
-
+    nl(2)
+    if height>qiao['z'].max():
+        st.error('桥高于河堤')
+    elif height<qiao['z'].min():
+        st.error('桥低于河底')
+    else:
+        st.success('桥梁数据没有问题')
     # 绘制桥断面坐标
     st.subheader('桥梁横断面')
     fig = go.Figure()
@@ -454,7 +459,7 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
     n = 0.03  # 糙率
     j = 0.01  # 比降
     # Streamlit 页面标题
-    st.title('水位与流量关系图')
+    st.subheader('水位与流量关系图')
     # 输入起始水位和最终水位
     h_start = qiao['z'].min()
     h_end = qiao['z'].max()
