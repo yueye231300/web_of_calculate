@@ -202,12 +202,13 @@ def calculate_len_Q(W,L):
 
 # 已知流量得水位
 def find_water_level(qiao_section, target_flow, n, j):
-    h_1 = qiao # 初始水位
+    h_1 = qiao['z'].min() # 初始水位
+    h_min = qiao['z'].min()
     increment = 0.0001  # 水位增量
     while True:
         flow = qiao_section.manning(h_1, n, j)['Q']
         if flow >= target_flow:
-            return h_1
+            return h_1-h_min
         h_1 += increment
 
 
@@ -295,7 +296,7 @@ if zdm_path is not None:
             qiao_lower = qiao['z'].min()
             zdm_yongshui = pd.DataFrame()
             limitation = limit(zdm, hdm)
-            zdm_plot = zdm_z_len.iloc[:limitation]
+                zdm_plot = zdm_z_len.iloc[:limitation]
             zdm_path_1 = zdm_path_name[-9:-7]
 
             if chapter is not None:
@@ -552,4 +553,30 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
             zy_hl = st.number_input('输入中游支流数据')
         with right_columns_4:
             xy_hl = st.number_input('输入下游汇流数据')
+        if not any(var is None for var in [zy_hl, xy_hl]):
+            Q_lm_zy_hl = Q_lm_zy + zy_hl
+            Q_lm_xy_hl = Q_lm_xy + zy_hl +xy_hl
+            H_zy = find_water_level(qiao_section,Q_lm_zy_hl,0.03,0.01)
+            H_zy_1 = H_zy+hdm_zy_z_len['z'].min()
+            H_xy = find_water_level(qiao_section,Q_lm_xy_hl,0.03,0.01)
+            H_xy_1 = H_xy+hdm_xy_z_len['z'].min()
+            plot_H = {'height':[height,H_zy_1,H_xy_1],'len':[0,L_zy,L_xy]}
+            plot_H = pd.DataFrame(plot_H)
+            # 绘制图像，包括深洪线，居民点和流量距离曲线
+            zdm_plot_2 = zdm.iloc[limitation:]
+            fig1, ax = plt.subplots()
+            jmd_plot_2 =jmd_z_len[~jmd_z_len.index.isin(jmd_plot_i)]
+            ax.scatter(jmd_plot_2['len'], jmd_plot_2['z'], marker="^", linewidths=0, color="#efba11", label='居民点')
+            ax.plot(zdm_plot_2['len'], zdm_plot_2['z'], color='#5177bd', label='深泓线')
+            ax.plot(yongshui_plot['len'], yongshui_plot['z'], color='#f3bf97', label='雍水线')
+            ax.plot(plot_H['len'], plot_H['height'], color='blue', label='溃决水线')
+            # 设置图像标签和轴
+            plt.xlabel("距离/m", fontproperties=font)
+            plt.ylabel('高程/m', fontproperties=font)
+            plt.xlim(0, zdm_plot_2['len'].max() * 1.1)
 
+            # 设置图例位置，确保图例在图像下方
+            legend = plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=3, fontsize=8, prop=font_1)
+
+            # 在 Streamlit 中显示图像
+            st.pyplot(fig)
