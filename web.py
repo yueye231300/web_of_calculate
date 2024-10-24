@@ -8,6 +8,7 @@ from matplotlib.font_manager import FontProperties  # 导入FontProperties
 import math
 from operator import itemgetter
 import plotly.graph_objects as go
+import numpy as np
 
 # font setting
 font = FontProperties(fname="font/SimSun.ttf", size=10)
@@ -417,7 +418,7 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
     # 绘制桥断面坐标
     st.subheader('桥梁横断面')
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=qiao['len'], y=qiao['z'], mode='lines+markers', name='z vs len'))
+    fig.add_trace(go.Scatter(x=qiao['len'], y=qiao['z'], mode='lines+markers', name='桥梁横断面图'))
 
     # 设置图形标题和标签
     fig.update_layout(title='横断面图',
@@ -426,3 +427,50 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
 
     # 在 Streamlit 中显示图形
     st.plotly_chart(fig)
+
+    # 绘制水位流量表格
+    # 假设你已经定义了 qiao_section 对象
+    qiao_section = qiao_section  # 你的断面对象
+    n = 0.03  # 糙率
+    j = 0.01  # 比降
+    # Streamlit 页面标题
+    st.title('水位与流量关系图')
+
+    # 输入起始水位和最终水位
+    h_start = qiao['z'].min()
+    h_end = qiao['z'].max()
+
+    # 存储数据
+    water_levels = []
+    flows = []
+    elements = []
+
+    # 增加水位
+    h_values = np.arange(h_start, h_end, 0.01)
+
+    for h in h_values:
+        # 计算水利要素
+        element = qiao_section.manning(h, n, j)
+
+        water_levels.append(h)
+        flows.append(element['Q'])
+        elements.append(element)
+
+    # 创建 DataFrame 存储水利要素
+    df_elements = pd.DataFrame(elements)
+
+    # 创建折线图
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(x=water_levels, y=flows, mode='lines', name='流量(Q)'))
+
+    # 设置图形标题和标签
+    fig.update_layout(title='水位与流量关系图',
+                      xaxis_title='水位 (h)',
+                      yaxis_title='流量 (Q)')
+
+    # 在 Streamlit 中显示图形
+    st.plotly_chart(fig)
+
+    # 显示水利要素表格
+    st.subheader('水利要素表格')
+    st.dataframe(df_elements)
