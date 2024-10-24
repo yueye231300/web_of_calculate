@@ -436,43 +436,41 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
     j = 0.01  # 比降
     # Streamlit 页面标题
     st.title('水位与流量关系图')
-
     # 输入起始水位和最终水位
-    h_start = qiao['z'].min()
-    h_end = qiao['z'].max()
-
+    h_start = st.number_input('起始水位', value=0.0)
+    h_end = st.number_input('最终水位', value=1.0, min_value=h_start)
     # 存储数据
     water_levels = []
     flows = []
-    elements = []
-
+    areas = []
     # 增加水位
     h_values = np.arange(h_start, h_end, 0.01)
-
     for h in h_values:
         # 计算水利要素
         element = qiao_section.manning(h, n, j)
 
         water_levels.append(h)
         flows.append(element['Q'])
-        elements.append(element['Q'])
-        elements.append(element['h'])
-        elements.append(h)
-    # 创建 DataFrame 存储水利要素
-    df_elements = pd.DataFrame(elements)
+        areas.append(element['A'])
+
+    # 创 DataFrame 存储水位、流量和面积
+    df_results = pd.DataFrame({
+        '水位 (H)': water_levels,
+        '流量 (Q)': flows,
+        '断面面积 (A)': areas
+    })
 
     # 创建折线图
     fig = go.Figure()
-    fig.add_trace(go.Scatter(x=water_levels, y=flows, mode='lines', name='流量(Q)'))
+    fig.add_trace(go.Scatter(x=water_levels, y=flows, mode='lines+markers', name='流量(Q)'))
 
     # 设置图形标题和标签
     fig.update_layout(title='水位与流量关系图',
-                      xaxis_title='水位 (h)',
-                      yaxis_title='流量 (Q)')
-
+                      xaxis_title='水位 (H)',
+                      yaxis_title='流量 (Q)',
+                      showlegend=True)
     # 在 Streamlit 中显示图形
     st.plotly_chart(fig)
-
-    # 显示水利要素表格
-    st.subheader('水利要素表格')
-    st.dataframe(df_elements)
+    # 显示结果表格
+    st.subheader('水位与流量及断面面积表格')
+    st.dataframe(df_results)
