@@ -530,7 +530,7 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
 
         # Add hl data as scatter points
         fig.add_trace(
-            go.Scatter(x=hl['len'], y=hl['z'], mode='markers', name='hl Scatter', marker=dict(color='orange')))
+            go.Scatter(x=hl_z_len['len'], y=hl_z_len['z'], mode='markers', name='hl Scatter', marker=dict(color='orange')))
 
         # Set labels and legend
         fig.update_layout(
