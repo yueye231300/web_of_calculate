@@ -513,7 +513,6 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
         # 绘制汇流图像
         # Create the plot
         fig = go.Figure()
-
         # Plot zdm_z_len as scatter and line
         fig.add_trace(go.Scatter(x=zdm_z_len['len'], y=zdm_z_len['z'], mode='markers', name='纵断面节点',
                                  marker=dict(color='blue')))
