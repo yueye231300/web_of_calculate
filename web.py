@@ -577,4 +577,4 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
             legend = plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=3, fontsize=8, prop=font_1)
 
             # 在 Streamlit 中显示图像
-            st.pyplot(fig)
+            st.pyplot(fig1)
