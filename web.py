@@ -573,6 +573,8 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
             zdm_plot_2 = zdm.iloc[limitation:]
             fig1, ax = plt.subplots()
             jmd_plot_2 =jmd_z_len[~jmd_z_len.index.isin(jmd_plot_i)]
+            jmd_plot_2['len'] = jmd_plot_2['len']-zdm['len'][qiao_jiedian]
+            zdm_plot_2['len'] = zdm_plot_2['len']-zdm['len'][qiao_jiedian]
             ax.scatter(jmd_plot_2['len'], jmd_plot_2['z'], marker="^", linewidths=0, color="#efba11", label='居民点')
             ax.plot(zdm_plot_2['len'], zdm_plot_2['z'], color='#5177bd', label='深泓线')
             ax.plot(plot_H['len'], plot_H['height'], color='blue', label='溃决水线')
