@@ -537,14 +537,6 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
 
         st.write("请给出对应的流量数据")
 
-
-
-
-
-
-
-
-
         left_columns_4, right_columns_4 = st.columns(2)
         with left_columns_4:
             zy_hl = st.number_input('输入中游支流数据')
