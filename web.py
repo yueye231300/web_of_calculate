@@ -9,6 +9,7 @@ import math
 from operator import itemgetter
 import plotly.graph_objects as go
 import numpy as np
+import pydeck as pdk
 
 # font setting
 font = FontProperties(fname="font/SimSun.ttf", size=10)
@@ -510,8 +511,92 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
         st.write('下游断面汇流的有：')
         st.write(xy_hl)
         st.write("请给出对应的流量数据")
+
+        # 创建zdm图层
+        zdm_layer = pdk.Layer(
+            "纵断面点",
+            data=zdm,
+            get_position="[x, y]",
+            get_radius=50,
+            get_fill_color=[0, 0, 255],
+            pickable=True,
+            id="zdm_layer"
+        )
+
+        # 创建hdm_zy_jiedian图层
+        hdm_zy_jiedian_layer = pdk.Layer(
+            "中游节点",
+            data=zdm.loc[[hdm_zy_jiedian]],
+            get_position="[x, y]",
+            get_radius=100,
+            get_fill_color=[255, 0, 0],
+            pickable=True,
+            id="hdm_zy_jiedian_layer"
+        )
+
+        # 创建hdm_xy_jiedian图层
+        hdm_xy_jiedian_layer = pdk.Layer(
+            "下游节点",
+            data=zdm.loc[[hdm_xy_jiedian]],
+            get_position="[x, y]",
+            get_radius=100,
+            get_fill_color=[0, 255, 0],
+            pickable=True,
+            id="hdm_xy_jiedian_layer"
+        )
+
+        # 创建hl图层
+        hl_layer = pdk.Layer(
+            "回流节点",
+            data=hl,
+            get_position="[x, y]",
+            get_radius=50,
+            get_fill_color=[255, 255, 0],
+            pickable=True,
+            id="hl_layer"
+        )
+
+        # 创建图例
+        legend = pdk.Legend(
+            items=[
+                pdk.LegendItem(name="纵断面", color=[0, 0, 255]),
+                pdk.LegendItem(name="中断面节点", color=[255, 0, 0]),
+                pdk.LegendItem(name="下游断面节点", color=[0, 255, 0]),
+                pdk.LegendItem(name="汇流节点", color=[255, 255, 0])
+            ],
+            position="bottom-right"
+        )
+
+        # 创建地图视图
+        view_state = pdk.ViewState(
+            longitude=zdm['x'].mean(),
+            latitude=zdm['y'].mean(),
+            zoom=10,
+            pitch=0
+        )
+
+        # 创建Deck对象
+        r = pdk.Deck(
+            layers=[zdm_layer, hdm_zy_jiedian_layer, hdm_xy_jiedian_layer, hl_layer],
+            initial_view_state=view_state,
+            tooltip={"text": "{text}"},
+            legend=legend
+        )
+
+        # 在Streamlit中显示地图
+        st.pydeck_chart(r)
+
+
+
+
+
+
+
+
+
         left_columns_4, right_columns_4 = st.columns(2)
         with left_columns_4:
             zy_hl = st.number_input('输入中游支流数据')
         with right_columns_4:
             xy_hl = st.number_input('输入下游汇流数据')
+
