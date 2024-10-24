@@ -566,7 +566,7 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
         view_state = pdk.ViewState(
             longitude=zdm['x'].mean(),
             latitude=zdm['y'].mean(),
-            zoom=20,
+            zoom=5,
             pitch=0
         )
 
