@@ -515,22 +515,22 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
         fig = go.Figure()
 
         # Plot zdm_z_len as scatter and line
-        fig.add_trace(go.Scatter(x=zdm_z_len['len'], y=zdm_z_len['z'], mode='markers', name='zdm_z_len Scatter',
+        fig.add_trace(go.Scatter(x=zdm_z_len['len'], y=zdm_z_len['z'], mode='markers', name='纵断面节点',
                                  marker=dict(color='blue')))
-        fig.add_trace(go.Scatter(x=zdm_z_len['len'], y=zdm_z_len['z'], mode='lines', name='zdm_z_len Line',
+        fig.add_trace(go.Scatter(x=zdm_z_len['len'], y=zdm_z_len['z'], mode='lines', name='深弘线',
                                  line=dict(color='blue')))
 
         # Highlight hdm_zy_jiedian and hdm_xy_jiedian
         fig.add_trace(
             go.Scatter(x=[zdm_z_len['len'][hdm_zy_jiedian]], y=[zdm_z_len['z'][hdm_zy_jiedian]], mode='markers',
-                       name='hdm_zy_jiedian', marker=dict(color='red', size=10)))
+                       name='中游断面节点', marker=dict(color='red', size=10)))
         fig.add_trace(
             go.Scatter(x=[zdm_z_len['len'][hdm_xy_jiedian]], y=[zdm_z_len['z'][hdm_xy_jiedian]], mode='markers',
-                       name='hdm_xy_jiedian', marker=dict(color='green', size=10)))
+                       name='下游断面节点', marker=dict(color='green', size=10)))
 
         # Add hl data as scatter points
         fig.add_trace(
-            go.Scatter(x=hl_z_len['len'], y=hl_z_len['z'], mode='markers', name='hl Scatter', marker=dict(color='orange')))
+            go.Scatter(x=hl_z_len['len'], y=hl_z_len['z'], mode='markers', name='汇流节点', marker=dict(color='orange')))
 
         # Set labels and legend
         fig.update_layout(
