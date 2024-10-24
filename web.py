@@ -512,28 +512,35 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
         st.write(xy_hl)
         # 绘制汇流图像
         # Create the plot
-        fig, ax = plt.subplots()
+        fig = go.Figure()
 
         # Plot zdm_z_len as scatter and line
-        ax.scatter(zdm_z_len['len'], zdm_z_len['z'], color='blue', label='zdm_z_len Scatter')
-        ax.plot(zdm_z_len['len'], zdm_z_len['z'], color='blue', label='zdm_z_len Line')
+        fig.add_trace(go.Scatter(x=zdm_z_len['len'], y=zdm_z_len['z'], mode='markers', name='zdm_z_len Scatter',
+                                 marker=dict(color='blue')))
+        fig.add_trace(go.Scatter(x=zdm_z_len['len'], y=zdm_z_len['z'], mode='lines', name='zdm_z_len Line',
+                                 line=dict(color='blue')))
 
         # Highlight hdm_zy_jiedian and hdm_xy_jiedian
-        ax.scatter(zdm_z_len['len'][hdm_zy_jiedian], zdm_z_len['z'][hdm_zy_jiedian], color='red', s=100,
-                   label='hdm_zy_jiedian')
-        ax.scatter(zdm_z_len['len'][hdm_xy_jiedian], zdm_z_len['z'][hdm_xy_jiedian], color='green', s=100,
-                   label='hdm_xy_jiedian')
+        fig.add_trace(
+            go.Scatter(x=[zdm_z_len['len'][hdm_zy_jiedian]], y=[zdm_z_len['z'][hdm_zy_jiedian]], mode='markers',
+                       name='hdm_zy_jiedian', marker=dict(color='red', size=10)))
+        fig.add_trace(
+            go.Scatter(x=[zdm_z_len['len'][hdm_xy_jiedian]], y=[zdm_z_len['z'][hdm_xy_jiedian]], mode='markers',
+                       name='hdm_xy_jiedian', marker=dict(color='green', size=10)))
 
         # Add hl data as scatter points
-        ax.scatter(hl_z_len['len'], hl_z_len['z'], color='orange', label='hl Scatter')
+        fig.add_trace(
+            go.Scatter(x=hl['len'], y=hl['z'], mode='markers', name='hl Scatter', marker=dict(color='orange')))
 
         # Set labels and legend
-        ax.set_xlabel('距离/m')
-        ax.set_ylabel('高程/m')
-        ax.legend()
+        fig.update_layout(
+            xaxis_title='距离/m',
+            yaxis_title='高程/m',
+            legend_title='图例'
+        )
 
         # Display the plot in Streamlit
-        st.pyplot(fig)
+        st.plotly_chart(fig)
 
         st.write("请给出对应的流量数据")
 
