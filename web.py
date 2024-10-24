@@ -492,6 +492,7 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
     st.dataframe(df_results)
     st.subheader('多支汇流计算')
     hl_path = st.file_uploader('多支汇流数据', type='csv')
+    if hl_path is not None:
     hl = pd.read_csv(hl_path)
     hl_length = calculate_length(hl)
     hl_z_len= hebing(hl,hl_length)
