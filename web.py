@@ -595,7 +595,7 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
             buffer2 = BytesIO()
             fig1.savefig(buffer2, format='png', bbox_inches='tight', bbox_extra_artists=[legend])  # 确保图例包含在图像中
             buffer2.seek(0)  # 重置缓冲区位置
-            save_result = {'S断面': [A],'S阻':[S],'R1':[S/A],'泓线长':[hongxian],'阻水库容':[W],'中游输入流量':[zy_hl],'下游汇流数据':[xy_hl],'Q_m':[Q_m],'Q_m中游':[Q_lm_zy],'Q_m下游':[Q_lm_xy]}
+            save_result = {'S_duan': [A],'S_zu':[S],'R1':[S/A],'hongxian_l':[hongxian],'W':[W],'zhongyou_Q':[zy_hl],'xiayou_Q':[xy_hl],'Q_m':[Q_m],'Q_m_zhongyou':[Q_lm_zy],'Q_mxaiyou':[Q_lm_xy]}
             save_result =pd.DataFrame(save_result)
 
             # 将数据框转换为 CSV 格式
