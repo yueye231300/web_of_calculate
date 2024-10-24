@@ -510,74 +510,34 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
         st.write(zy_hl)
         st.write('下游断面汇流的有：')
         st.write(xy_hl)
+        # 绘制汇流图像
+        # Create the plot
+        fig, ax = plt.subplots()
+
+        # Plot zdm_z_len as scatter and line
+        ax.scatter(zdm_z_len['len'], zdm_z_len['z'], color='blue', label='zdm_z_len Scatter')
+        ax.plot(zdm_z_len['len'], zdm_z_len['z'], color='blue', label='zdm_z_len Line')
+
+        # Highlight hdm_zy_jiedian and hdm_xy_jiedian
+        ax.scatter(zdm_z_len['len'][hdm_zy_jiedian], zdm_z_len['z'][hdm_zy_jiedian], color='red', s=100,
+                   label='hdm_zy_jiedian')
+        ax.scatter(zdm_z_len['len'][hdm_xy_jiedian], zdm_z_len['z'][hdm_xy_jiedian], color='green', s=100,
+                   label='hdm_xy_jiedian')
+
+        # Add hl data as scatter points
+        ax.scatter(hl['len'], hl['z'], color='orange', label='hl Scatter')
+
+        # Set labels and legend
+        ax.set_xlabel('距离/m')
+        ax.set_ylabel('高程/m')
+        ax.legend()
+
+        # Display the plot in Streamlit
+        st.pyplot(fig)
+
         st.write("请给出对应的流量数据")
-        # 指定要强调的点的索引
-        highlight_indices = [hdm_zy_jiedian, hdm_xy_jiedian]  # 强调 data1 的第一个和第二个
-        # 强调点数据：仅包含需要强调的点
-        highlight_data = zdm.loc[highlight_indices]
-        # 指定索引号及其对应的标签
-        custom_labels = {hdm_zy_jiedian: "中游", hdm_xy_jiedian: "下游"}
-        zdm_map = zdm
-        # 只在特定索引号上添加自定义标签
-        zdm_map['label'] = zdm_map.apply(lambda row: custom_labels[row.name]
-        if row.name in custom_labels else '', axis=1)
-        # 创建一个展示所有点的散点图层（data1 全部数据）
-        scatter_layer1 = pdk.Layer(
-            'ScatterplotLayer',
-            zdm,
-            get_position='[x, y]',  # 经纬度
-            radius=100,  # 普通点半径
-            get_fill_color='[255, 165, 0, 160]',  # 橙色，普通点
-            pickable=True
-        )
 
-        # 为强调的点创建一个散点图层
-        highlight_layer1 = pdk.Layer(
-            'ScatterplotLayer',
-            highlight_data,
-            get_position='[x, y]',  # 经纬度
-            radius=200,  # 较大点半径，用于强调
-            get_fill_color='[0, 0, 255, 255]',  # 蓝色，用于强调
-            pickable=True
-        )
 
-        # 为强调的点添加文本标识
-        text_layer1 = pdk.Layer(
-            "TextLayer",
-            highlight_data,
-            get_position='[x, y]',
-            get_text='label',  # 显示点的标签
-            get_color='[0, 0, 255]',  # 蓝色文字
-            get_size=18,  # 字体大小
-            get_alignment_baseline="'bottom'",
-        )
-
-        # 为 data2 创建一个普通的散点图层，显示所有点
-        scatter_layer2 = pdk.Layer(
-            'ScatterplotLayer',
-            hl,
-            get_position='[x, y]',  # 经纬度
-            radius=100,
-            get_fill_color='[255, 0, 0, 160]',  # 红色，普通点
-            pickable=True
-        )
-
-        # 定义地图视角
-        view_state = pdk.ViewState(
-            longitude=zdm['x'].mean(),
-            latitude=zdm['y'].mean(),
-            zoom=5,
-            pitch=0
-        )
-
-        # 创建 pydeck 地图，添加图层
-        r = pdk.Deck(
-            layers=[scatter_layer1, highlight_layer1, text_layer1, scatter_layer2],  # 添加所有图层
-            initial_view_state=view_state
-        )
-
-        # 在 Streamlit 中显示 pydeck 地图
-        st.pydeck_chart(r)
 
 
 
