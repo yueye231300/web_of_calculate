@@ -570,7 +570,7 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
             plot_H = pd.DataFrame(plot_H)
             st.write(plot_H)
             # 绘制图像，包括深洪线，居民点和流量距离曲线
-            zdm_plot_2 = zdm.iloc[limitation:]
+            zdm_plot_2 = zdm.iloc[limitation-1:]
             fig1, ax = plt.subplots()
             jmd_plot_2 =jmd_z_len[~jmd_z_len.index.isin(jmd_plot_i)]
             jmd_plot_2['len'] = jmd_plot_2['len']-zdm['len'][qiao_jiedian]
