@@ -455,8 +455,9 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
 
         water_levels.append(h)
         flows.append(element['Q'])
-        elements.append(element)
-
+        elements.append(element['Q'])
+        elements.append(element['h'])
+        elements.append(h)
     # 创建 DataFrame 存储水利要素
     df_elements = pd.DataFrame(elements)
 
