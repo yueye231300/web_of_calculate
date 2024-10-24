@@ -601,7 +601,6 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
             # 将数据框转换为 CSV 格式
             csv = save_result.to_csv(index=False)
             buffer_3 = StringIO(csv)
-
             # 生成下载按钮
             with left_columns_5:
                 st.download_button(label="下载溃决图像", data=buffer2, file_name=f"{save_path}溃决.png", mime="image/png")
