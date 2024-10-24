@@ -534,7 +534,7 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
 
         # Display the plot in Streamlit
         st.plotly_chart(fig)
-        qiao_max = qiao['z'].max
+        qiao_max = qiao['z'].max()
         Q_max = qiao_section.element(qiao_max)
         flow_1 = qiao_section.manning(qiao_max,0.03,0.01)
         Q_MAX = flow_1['Q']
