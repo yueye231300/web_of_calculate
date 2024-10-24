@@ -541,9 +541,13 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
 
         # Display the plot in Streamlit
         st.plotly_chart(fig)
+        qiao_max = qiao['z'].max
+        Q_max = qiao_section.manning(qiao_max,0.03,0.01)[element]
+        Q_MAX = Q_max['Q']
 
         st.write("请给出对应的流量数据")
-
+        st.write('汇流流量之和不能超过')
+        st.write(Q_MAX-Q_m)
         left_columns_4, right_columns_4 = st.columns(2)
         with left_columns_4:
             zy_hl = st.number_input('输入中游支流数据')
