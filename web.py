@@ -437,8 +437,8 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
     # Streamlit 页面标题
     st.title('水位与流量关系图')
     # 输入起始水位和最终水位
-    h_start = st.number_input('起始水位', value=0.0)
-    h_end = st.number_input('最终水位', value=1.0, min_value=h_start)
+    h_start = qiao['z'].min()
+    h_end = qiao['z'].max()
     # 存储数据
     water_levels = []
     flows = []
