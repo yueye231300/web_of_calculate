@@ -152,9 +152,6 @@ def hl_calculate(hl_z_len_1,zy_jiedian,xy_jiedian):
 
 
 
-
-
-
 # def method
 def calculate_length(y):
     #x,y is a list and x is used to calculate the length
@@ -163,6 +160,17 @@ def calculate_length(y):
         dis = ((y['NEAR_X'][i]-x_beginner)**2+(y['NEAR_Y'][i]-y_beginner)**2)**(0.5)
         length = length._append({'len':dis},ignore_index=True)
     return length
+
+
+def calculate_length_x_y(x):
+    length = pd.DataFrame(columns=['len'])
+    for i in range(len(x['x'])):
+        dis = ((x['x'][i] - x_beginner) ** 2 + (x['y'][i] - y_beginner) ** 2) ** (0.5)
+        length = length._append({'len': dis}, ignore_index=True)
+    return length
+
+
+
 
 
 def hebing(x, y):
@@ -494,7 +502,7 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
     hl_path = st.file_uploader('多支汇流数据', type='csv')
     if hl_path is not None:
         hl = pd.read_csv(hl_path)
-        hl_length = calculate_length(hl)
+        hl_length = calculate_length_x_y(hl)
         hl_z_len= hebing(hl,hl_length)
         zy_hl,xy_hl = hl_calculate(hl_z_len,hdm_zy_jiedian,hdm_xy_jiedian)
         st.write('中游断面汇流的有：')
