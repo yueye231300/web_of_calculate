@@ -698,7 +698,6 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
             # 创建布局列
             st.write('溃决数据下载')
             left_columns_5, right_columns_5= st.columns(2)
-
             # 保存图像并包含图例
             buffer2 = BytesIO()
             fig2.savefig(buffer2, format='png', bbox_inches='tight', bbox_extra_artists=[legend],dpi=600)  # 确保图例包含在图像中
