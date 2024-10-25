@@ -327,7 +327,7 @@ if zdm_path is not None:
             fig, ax = plt.subplots()
             ax.scatter(jmd_plot['len'], jmd_plot['z'], marker="^", linewidths=0, color="#efba11", label='居民点')
             ax.plot(zdm_plot['len'], zdm_plot['z'], color='#5177bd', label='深泓线')
-            ax.plot(yongshui_plot['len'], yongshui_plot['z'], color='#f3bf97', label='雍水线')
+            ax.plot(yongshui_plot['len'], yongshui_plot['z'], color='#f3bf97', label='水面线')
 
             # 设置图像标签和轴
             plt.xlabel("距离/m", fontproperties=font)
@@ -577,7 +577,7 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
             zdm_plot_2['len'] = zdm_plot_2['len']-zdm['len'][qiao_jiedian]
             ax.scatter(jmd_plot_2['len'], jmd_plot_2['z'], marker="^", linewidths=0, color="#efba11", label='居民点')
             ax.plot(zdm_plot_2['len'], zdm_plot_2['z'], color='#5177bd', label='深泓线')
-            ax.plot(plot_H['len'], plot_H['height'], color='blue', label='溃决水线')
+            ax.plot(plot_H['len'], plot_H['height'], color='#f3bf97', label='水面线')
             # 设置图像标签和轴
             plt.xlabel("距离/m", fontproperties=font)
             plt.ylabel('高程/m', fontproperties=font)
@@ -595,7 +595,8 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
             buffer2 = BytesIO()
             fig1.savefig(buffer2, format='png', bbox_inches='tight', bbox_extra_artists=[legend])  # 确保图例包含在图像中
             buffer2.seek(0)  # 重置缓冲区位置
-            save_result = {'S_duan': [A],'S_zu':[S],'R1':[S/A],'hongxian_l':[hongxian],'W':[W],'zhongyou_Q':[zy_hl],'xiayou_Q':[xy_hl],'Q_m':[Q_m],'Q_m_zhongyou':[Q_lm_zy],'Q_mxaiyou':[Q_lm_xy]}
+            save_result = {'S_duan': [A],'S_zu':[S],'R1':[S/A],'hongxian_l':[hongxian],'W':[W],'zhongyou_Q':[zy_hl],'xiayou_Q':[xy_hl],'Q_m':[Q_m],'Q_m_zhongyou':[Q_lm_zy],'Q_mxaiyou':[Q_lm_xy]\
+            'B':B,'H_gaocha':H_change,'L_xiayou':L_xy,'100year_Q':zy_hl+xy_hl,'xy_H_gaocha':H_xy}
             save_result =pd.DataFrame(save_result)
 
             # 将数据框转换为 CSV 格式
