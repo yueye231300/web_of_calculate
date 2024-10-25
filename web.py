@@ -403,7 +403,7 @@ if zdm_path is not None:
 
             # 保存图像并包含图例
             buffer = BytesIO()
-            fig.savefig(buffer, format='png', bbox_inches='tight', bbox_extra_artists=[legend])  # 确保图例包含在图像中
+            fig.savefig(buffer, format='png', bbox_inches='tight', bbox_extra_artists=[legend],dpi=600)  # 确保图例包含在图像中
             buffer.seek(0)  # 重置缓冲区位置
 
             # 将数据框转换为 CSV 格式
@@ -626,7 +626,6 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
             plot_H = {'height':[height,H_zy_1,H_xy_1],'len':[0,L_zy,L_xy]}
             plot_H = pd.DataFrame(plot_H)
             zdm_plot_2 = zdm.iloc[limitation-1:]
-            fig1, ax = plt.subplots()
             jmd_plot_2 =jmd_z_len[~jmd_z_len.index.isin(jmd_plot_i)]
             jmd_plot_2['len'] = jmd_plot_2['len']-zdm['len'][qiao_jiedian]
             zdm_plot_2['len'] = zdm_plot_2['len']-zdm['len'][qiao_jiedian]
@@ -683,7 +682,7 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
 
             st.write(plot_H)
             # 绘制图像，包括深洪线，居民点和流量距离曲线
-
+            fig2, ax = plt.subplots()
             ax.scatter(jmd_plot_2['len'], jmd_plot_2['z'], marker="^", linewidths=0, color="#efba11", label='居民点')
             ax.plot(zdm_plot_2['len'], zdm_plot_2['z'], color='#5177bd', label='深泓线')
             ax.plot(plot_H['len'], plot_H['height'], color='#f3bf97', label='水面线')
@@ -695,14 +694,14 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
             legend = plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.15), ncol=3, fontsize=8, prop=font_1)
 
             # 在 Streamlit 中显示图像
-            st.pyplot(fig1)
+            st.pyplot(fig2)
             # 创建布局列
             st.write('溃决数据下载')
             left_columns_5, right_columns_5= st.columns(2)
 
             # 保存图像并包含图例
             buffer2 = BytesIO()
-            fig1.savefig(buffer2, format='png', bbox_inches='tight', bbox_extra_artists=[legend])  # 确保图例包含在图像中
+            fig1.savefig(buffer2, format='png', bbox_inches='tight', bbox_extra_artists=[legend],dpi=600)  # 确保图例包含在图像中
             buffer2.seek(0)  # 重置缓冲区位置
             save_result = {'S_duan': [A],'S_zu':[S],'R1':[S/A],'hongxian_l':[hongxian],'W':[W],'zhongyou_Q':[zy_hl],'xiayou_Q':[xy_hl],'Q_m':[Q_m],'Q_m_zhongyou':[Q_lm_zy],'Q_mxaiyou':[Q_lm_xy],\
             'B':[B],'H_gaocha':[H_change],'L_xiayou':[L_xy],'yongshuidiangaocha':[height-qiao['z'].min()],'L_zy':[L_zy]}
