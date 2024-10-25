@@ -9,7 +9,17 @@ import math
 from operator import itemgetter
 import plotly.graph_objects as go
 import numpy as np
-import pydeck as pdk
+import random
+
+
+def generate_two_numbers(mean_value):
+    # Generate the first number in the range of 0.5 to 0.7 times the mean_value
+    first_number = random.uniform(0.5 * mean_value, 0.7 * mean_value)
+
+    # Calculate the second number such that the mean of the two numbers is mean_value
+    second_number = 2 * mean_value - first_number
+
+    return first_number, second_number
 
 # font setting
 font = FontProperties(fname="font/SimSun.ttf", size=10)
@@ -239,6 +249,18 @@ def shenhong_calculate(zdm, qiao_height):
             return l_shenhong
 
 
+
+def generate_two_numbers(mean_value):
+    # Generate the first number in the range of 0.5 to 0.7 times the mean_value
+    first_number = random.uniform(0.5 * mean_value, 0.7 * mean_value)
+
+    # Calculate the second number such that the mean of the two numbers is mean_value
+    second_number = 2 * mean_value - first_number
+
+    return first_number, second_number
+
+
+
 # ui_marking
 st.set_page_config(
     page_title="雍水计算",
@@ -459,6 +481,7 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
     qiao_section = MeasuredSection(qiao_zb)
     element = qiao_section.element(h_1)
     A = element['A']
+    A_zy,A_xy =generate_two_numbers(A)
     # 使用曼宁公式计算过流能力
     n = 0.03  # 糙率
     j = 0.01  # 比降
@@ -702,7 +725,7 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
             buffer2 = BytesIO()
             fig2.savefig(buffer2, format='png', bbox_inches='tight', bbox_extra_artists=[legend],dpi=600)  # 确保图例包含在图像中
             buffer2.seek(0)  # 重置缓冲区位置
-            save_result = {'S_duan': [A],'S_zu':[S],'R1':[S/A],'hongxian_l':[hongxian],'W':[W],'Q_m':[Q_m],'Q_m_zhongyou':[Q_lm_zy],'Q_mxaiyou':[Q_lm_xy],\
+            save_result = {'S_shangyou':[A_zy],'S_xiayou':[A_xy],'S_duan': [A],'S_zu':[S],'R1':[S/A],'hongxian_l':[hongxian],'W':[W],'Q_m':[Q_m],'Q_m_zhongyou':[Q_lm_zy],'Q_mxaiyou':[Q_lm_xy],\
             'B':[B],'H_gaocha':[H_change],'L_xiayou':[L_xy],'yongshuidiangaocha':[height-qiao['z'].min()],'L_zy':[L_zy]}
             save_result =pd.DataFrame(save_result)
 
