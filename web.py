@@ -266,7 +266,7 @@ if chapter is not None:
         name_2 = name_1[-2:]
         bridge_path_1 = bridge_path_1._append({'name': name_2}, ignore_index=True)
     bridge_path_1.insert(bridge_path_1.shape[1], 'bridge_length', bridge_path['桥面高'])
-    bridge_path_1.insert(bridge_path_1.shape[1], 'B', bridge_path['桥宽'])
+    bridge_path_1.insert(bridge_path_1.shape[1], 'B', bridge_path['桥长'])
     bridge_path_1.insert(bridge_path_1.shape[1], 'H', bridge_path['高差'])
     st.write(bridge_path)
 
@@ -324,6 +324,63 @@ if zdm_path is not None:
 
             save_path = zdm_path_name[:-7]
             # 创建图像和绘制数据
+            # 可视化图像
+            st.subheader('查看居民点是否有问题并进行修改')
+            # 创建图形对象
+            fig = go.Figure()
+
+            # 添加居民点散点图
+            fig.add_trace(go.Scatter(
+                x=jmd_plot['len'],
+                y=jmd_plot['z'],
+                mode='markers',
+                marker=dict(symbol='triangle-up', size=10, color="#efba11"),
+                name='居民点'
+            ))
+
+            # 添加深泓线
+            fig.add_trace(go.Scatter(
+                x=zdm_plot['len'],
+                y=zdm_plot['z'],
+                mode='lines',
+                line=dict(color='#5177bd'),
+                name='深泓线'
+            ))
+
+            # 添加水面线
+            fig.add_trace(go.Scatter(
+                x=yongshui_plot['len'],
+                y=yongshui_plot['z'],
+                mode='lines',
+                line=dict(color='#f3bf97'),
+                name='水面线'
+            ))
+
+            # 设置图像标签和轴
+            fig.update_layout(
+                xaxis_title="距离/m",
+                yaxis_title='高程/m',
+                xaxis=dict(range=[0, zdm_plot['len'].max() * 1.1]),
+                font=dict(family="Your Font Family"),  # 替换为你想要的字体
+                legend=dict(
+                    orientation="h",
+                    yanchor="bottom",
+                    y=-0.15,
+                    xanchor="center",
+                    x=0.5,
+                    bgcolor='rgba(255, 255, 255, 0)',
+                    bordercolor='rgba(255, 255, 255, 0)',
+                )
+            )
+
+            # 在 Streamlit 中显示图形
+            st.plotly_chart(fig)
+
+
+
+
+
+
             fig, ax = plt.subplots()
             ax.scatter(jmd_plot['len'], jmd_plot['z'], marker="^", linewidths=0, color="#efba11", label='居民点')
             ax.plot(zdm_plot['len'], zdm_plot['z'], color='#5177bd', label='深泓线')
@@ -568,13 +625,65 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
             H_xy_1 = H_xy+hdm_xy_z_len['z'].min()
             plot_H = {'height':[height,H_zy_1,H_xy_1],'len':[0,L_zy,L_xy]}
             plot_H = pd.DataFrame(plot_H)
-            st.write(plot_H)
-            # 绘制图像，包括深洪线，居民点和流量距离曲线
             zdm_plot_2 = zdm.iloc[limitation-1:]
             fig1, ax = plt.subplots()
             jmd_plot_2 =jmd_z_len[~jmd_z_len.index.isin(jmd_plot_i)]
             jmd_plot_2['len'] = jmd_plot_2['len']-zdm['len'][qiao_jiedian]
             zdm_plot_2['len'] = zdm_plot_2['len']-zdm['len'][qiao_jiedian]
+            # 创建图形对象
+            fig1 = go.Figure()
+
+            # 添加居民点散点图
+            fig1.add_trace(go.Scatter(
+                x=jmd_plot_2['len'],
+                y=jmd_plot_2['z'],
+                mode='markers',
+                marker=dict(symbol='triangle-up', size=10, color="#efba11"),
+                name='居民点'
+            ))
+
+            # 添加深泓线
+            fig1.add_trace(go.Scatter(
+                x=zdm_plot_2['len'],
+                y=zdm_plot_2['z'],
+                mode='lines',
+                line=dict(color='#5177bd'),
+                name='深泓线'
+            ))
+
+            # 添加水面线
+            fig1.add_trace(go.Scatter(
+                x=plot_H['len'],
+                y=plot_H['height'],
+                mode='lines',
+                line=dict(color='#f3bf97'),
+                name='水面线'
+            ))
+
+            # 设置图像标签和轴
+            fig1.update_layout(
+                xaxis_title="距离/m",
+                yaxis_title='高程/m',
+                xaxis=dict(range=[0, zdm_plot_2['len'].max() * 1.1]),
+                font=dict(family="Your Font Family"),  # 替换为你想要的字体
+                legend=dict(
+                    orientation="h",
+                    yanchor="bottom",
+                    y=-0.15,
+                    xanchor="center",
+                    x=0.5,
+                    bgcolor='rgba(255, 255, 255, 0)',
+                    bordercolor='rgba(255, 255, 255, 0)',
+                    font=dict(size=8)
+                )
+            )
+
+            # 在 Streamlit 中显示图形
+            st.plotly_chart(fig1)
+
+            st.write(plot_H)
+            # 绘制图像，包括深洪线，居民点和流量距离曲线
+
             ax.scatter(jmd_plot_2['len'], jmd_plot_2['z'], marker="^", linewidths=0, color="#efba11", label='居民点')
             ax.plot(zdm_plot_2['len'], zdm_plot_2['z'], color='#5177bd', label='深泓线')
             ax.plot(plot_H['len'], plot_H['height'], color='#f3bf97', label='水面线')
@@ -596,7 +705,7 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
             fig1.savefig(buffer2, format='png', bbox_inches='tight', bbox_extra_artists=[legend])  # 确保图例包含在图像中
             buffer2.seek(0)  # 重置缓冲区位置
             save_result = {'S_duan': [A],'S_zu':[S],'R1':[S/A],'hongxian_l':[hongxian],'W':[W],'zhongyou_Q':[zy_hl],'xiayou_Q':[xy_hl],'Q_m':[Q_m],'Q_m_zhongyou':[Q_lm_zy],'Q_mxaiyou':[Q_lm_xy]\
-            'B':B,'H_gaocha':H_change,'L_xiayou':L_xy,'100year_Q':zy_hl+xy_hl,'xy_H_gaocha':H_xy}
+            'B':[B],'H_gaocha':[H_change],'L_xiayou':[L_xy],'yongshuidiangaocha':[height-qiao['z'].min()],'L_zy':[L_zy]}
             save_result =pd.DataFrame(save_result)
 
             # 将数据框转换为 CSV 格式
