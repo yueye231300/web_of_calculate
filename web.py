@@ -704,7 +704,7 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
             buffer2 = BytesIO()
             fig1.savefig(buffer2, format='png', bbox_inches='tight', bbox_extra_artists=[legend])  # 确保图例包含在图像中
             buffer2.seek(0)  # 重置缓冲区位置
-            save_result = {'S_duan': [A],'S_zu':[S],'R1':[S/A],'hongxian_l':[hongxian],'W':[W],'zhongyou_Q':[zy_hl],'xiayou_Q':[xy_hl],'Q_m':[Q_m],'Q_m_zhongyou':[Q_lm_zy],'Q_mxaiyou':[Q_lm_xy]\
+            save_result = {'S_duan': [A],'S_zu':[S],'R1':[S/A],'hongxian_l':[hongxian],'W':[W],'zhongyou_Q':[zy_hl],'xiayou_Q':[xy_hl],'Q_m':[Q_m],'Q_m_zhongyou':[Q_lm_zy],'Q_mxaiyou':[Q_lm_xy],\
             'B':[B],'H_gaocha':[H_change],'L_xiayou':[L_xy],'yongshuidiangaocha':[height-qiao['z'].min()],'L_zy':[L_zy]}
             save_result =pd.DataFrame(save_result)
 
