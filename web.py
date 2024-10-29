@@ -260,6 +260,26 @@ def generate_two_numbers(mean_value):
     return first_number, second_number
 
 
+def calculate_pojiang(x):
+    '''
+    :param x: 传入纵断面数据，注意纵断面行名应该命名好
+    :return: 计算坡降
+    '''
+    df = x
+    df['h_i'] = df['z'] - df['z'].shift(-1)
+    # Calculate the horizontal distance l_i between consecutive points
+    df['l_i'] = np.sqrt((df['x'].shift(-1) - df['x']) ** 2 + (df['y'].shift(-1) - df['y']) ** 2)
+    # calculate the j
+    L = df['l_i'].sum()
+    df['weighted_hl'] = (df['h_i'] + df['h_i'].shift(-1)) * df['l_i']
+    J = df['weighted_hl'].sum() / L ** 2
+    return J
+
+
+
+
+
+
 
 # ui_marking
 st.set_page_config(
@@ -508,7 +528,16 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
     Q_m = lamad * g * B * H_1
     v = 5
     k = 1.3
-    hongxian = zdm['len'][qiao_jiedian] - shenhong_calculate(zdm, height)
+    zdm_pojaing = zdm
+    if height >zdm['z'].max():
+        st.error('桥高高于纵断面最大值，先记录一下，可以继续做')
+        J = calculate_pojiang(zdm_pojaing)
+        st.write(J)
+        l_1 = height-zdm['z'][qiao_jiedian]
+        hongxian = l_1/J
+        st.write(hongxian)
+    else:
+        hongxian = zdm['len'][qiao_jiedian] - shenhong_calculate(zdm, height)
     # 随距离变化计算,计算距离
     L_zy = zdm['len'][hdm_zy_jiedian] - zdm['len'][qiao_jiedian]
     L_xy = zdm['len'][hdm_xy_jiedian] - zdm['len'][qiao_jiedian]
