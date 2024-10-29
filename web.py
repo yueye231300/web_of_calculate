@@ -532,9 +532,12 @@ if not any(var is None for var in [jmd_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
     if height >zdm['z'].max():
         st.error('桥高高于纵断面最大值，先记录一下，可以继续做')
         J = calculate_pojiang(zdm_pojaing)
+        st.write('坡降是')
         st.write(J)
-        l_1 = height-zdm['z'][qiao_jiedian]
-        hongxian = l_1/J
+        l_1 = zdm['len'][qiao_jiedian]-zdm['len'][0]
+        l_2 = (height - zdm['z'][0])/J
+        hongxian = l_1+l_2
+        st.write('泓线长度')
         st.write(hongxian)
     else:
         hongxian = zdm['len'][qiao_jiedian] - shenhong_calculate(zdm, height)
