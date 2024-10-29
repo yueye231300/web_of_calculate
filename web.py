@@ -266,7 +266,7 @@ def calculate_pojiang(x):
     :return: 计算坡降
     '''
     df = x
-    df['h_i'] = df['z'] - df['z'].shift(-1)
+    df['h_i'] = df['z'] - df['z'].min()
     # Calculate the horizontal distance l_i between consecutive points
     df['l_i'] = np.sqrt((df['x'].shift(-1) - df['x']) ** 2 + (df['y'].shift(-1) - df['y']) ** 2)
     # calculate the j
