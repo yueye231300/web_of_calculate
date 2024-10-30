@@ -327,7 +327,7 @@ jmd_path = st.file_uploader('居民点（包含near_x与near_y）', type='txt')
 
 st.subheader('对应雍水图像')
 if zdm_path is not None:
-        if qiao_path is not None:
+        if qiao_path is not None and jmd_path is not None:
             zdm = pd.read_csv(zdm_path)
             zdm_path_name = zdm_path.name
             # st.write(name)
@@ -338,8 +338,7 @@ if zdm_path is not None:
             len_1 = calculate_length(near_file)
             qiao = pd.read_csv(qiao_path)
             hdm = qiao
-            if not near_file.empty:
-                jmd_z_len = hebing(near_file, len_1)
+            jmd_z_len = hebing(near_file, len_1)
             zdm_z_len = hebing(zdm, zdm)
             qiao_lower = qiao['z'].min()
             zdm_yongshui = pd.DataFrame()
@@ -361,9 +360,9 @@ if zdm_path is not None:
             # reshape the date
             # get the limitation
             yongshui_plot = yongshui_z_len[:limitation]
-            if not jmd_z_len.empty:
-                jmd_plot_i = max_i(jmd_z_len,zdm,limitation)
-                jmd_plot = jmd_z_len.iloc[jmd_plot_i]
+
+            jmd_plot_i = max_i(jmd_z_len,zdm,limitation)
+            jmd_plot = jmd_z_len.iloc[jmd_plot_i]
 
             save_path = zdm_path_name[:-7]
             # 创建图像和绘制数据
@@ -372,13 +371,13 @@ if zdm_path is not None:
             # 创建图形对象
             fig = go.Figure()
             # 添加居民点散点图
-            if not jmd_plot.empty:
-                fig.add_trace(go.Scatter(
-                    x=jmd_plot['len'],
-                    y=jmd_plot['z'],
-                    mode='markers',
-                    marker=dict(symbol='triangle-up', size=10, color="#efba11"),
-                    name='居民点'
+
+            fig.add_trace(go.Scatter(
+                x=jmd_plot['len'],
+                y=jmd_plot['z'],
+                mode='markers',
+                marker=dict(symbol='triangle-up', size=10, color="#efba11"),
+                name='居民点'
                 ))
 
             # 添加深泓线
@@ -425,8 +424,8 @@ if zdm_path is not None:
 
 
             fig, ax = plt.subplots()
-            if not jmd_plot.empty:
-                ax.scatter(jmd_plot['len'], jmd_plot['z'], marker="^", linewidths=0, color="#efba11", label='居民点')
+
+            ax.scatter(jmd_plot['len'], jmd_plot['z'], marker="^", linewidths=0, color="#efba11", label='居民点')
             ax.plot(zdm_plot['len'], zdm_plot['z'], color='#5177bd', label='深泓线')
             ax.plot(yongshui_plot['len'], yongshui_plot['z'], color='#f3bf97', label='水面线')
 
@@ -477,7 +476,7 @@ if date_check:
     else:
         st.error('请上传所有数据')
 
-if not any(var is None for var in [qiao_path,jmd_path,hdm_xy_path,hdm_zy_path]):
+if not any(var is None for var in [zdm_path,qiao_path,jmd_path,hdm_xy_path,hdm_zy_path]):
     hdm_zy = pd.read_csv(hdm_zy_path)
     hdm_xy = pd.read_csv(hdm_xy_path)
     # 获得z_len数据
@@ -690,14 +689,14 @@ if not any(var is None for var in [qiao_path,jmd_path,hdm_xy_path,hdm_zy_path]):
             fig1 = go.Figure()
 
             # 添加居民点散点图
-            if not jmd_plot_2.empty:
-                fig1.add_trace(go.Scatter(
-                    x=jmd_plot_2['len'],
-                    y=jmd_plot_2['z'],
-                    mode='markers',
-                    marker=dict(symbol='triangle-up', size=10, color="#efba11"),
-                    name='居民点'
-                ))
+
+            fig1.add_trace(go.Scatter(
+                x=jmd_plot_2['len'],
+                y=jmd_plot_2['z'],
+                mode='markers',
+                marker=dict(symbol='triangle-up', size=10, color="#efba11"),
+                name='居民点'
+            ))
 
             # 添加深泓线
             fig1.add_trace(go.Scatter(
@@ -741,8 +740,8 @@ if not any(var is None for var in [qiao_path,jmd_path,hdm_xy_path,hdm_zy_path]):
             st.write(plot_H)
             # 绘制图像，包括深洪线，居民点和流量距离曲线
             fig2, ax = plt.subplots()
-            if not jmd_plot_2.empty:
-                ax.scatter(jmd_plot_2['len'], jmd_plot_2['z'], marker="^", linewidths=0, color="#efba11", label='居民点')
+
+            ax.scatter(jmd_plot_2['len'], jmd_plot_2['z'], marker="^", linewidths=0, color="#efba11", label='居民点')
             ax.plot(zdm_plot_2['len'], zdm_plot_2['z'], color='#5177bd', label='深泓线')
             ax.plot(plot_H['len'], plot_H['height'], color='#f3bf97', label='水面线')
             # 设置图像标签和轴
