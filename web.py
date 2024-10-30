@@ -371,7 +371,6 @@ if zdm_path is not None:
             st.subheader('查看居民点是否有问题并进行修改')
             # 创建图形对象
             fig = go.Figure()
-
             # 添加居民点散点图
             if not jmd_plot.empty:
                 fig.add_trace(go.Scatter(
