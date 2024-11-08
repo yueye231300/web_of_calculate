@@ -341,8 +341,9 @@ if zdm_path is not None:
             zdm_z_len = hebing(zdm, zdm)
             qiao_lower = qiao['z'].min()
             zdm_yongshui = pd.DataFrame()
+            st.write(zdm)
+            st.write(hdm)
             limitation = limit(zdm, hdm)
-            st.write(limitation)
             zdm_plot = zdm_z_len.iloc[:limitation]
             zdm_path_1 = zdm_path_name[-9:-7]
 
@@ -360,7 +361,6 @@ if zdm_path is not None:
             # reshape the date
             # get the limitation
             yongshui_plot = yongshui_z_len[:limitation]
-            st.write(yongshui_plot)
             jmd_plot_i = max_i(jmd_z_len,zdm,limitation)
             jmd_plot = jmd_z_len.iloc[jmd_plot_i]
 
