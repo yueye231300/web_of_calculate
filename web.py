@@ -194,9 +194,9 @@ def hebing(x, y):
 def limit(x, y):
     for i in range(len(x['x'])):
         for j in range(len(y['x'])):
-            if x['x'][i] == y['x'][j]:
-                limitation_1 = i+1
-                return limitation_1
+            if x['y'][i] == y['y'][j]:
+                limitation_ = i+1
+                return limitation
 
 
 def max_i(x, y,t):
