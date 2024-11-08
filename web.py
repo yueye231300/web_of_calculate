@@ -360,7 +360,7 @@ if zdm_path is not None:
             # reshape the date
             # get the limitation
             yongshui_plot = yongshui_z_len[:limitation]
-
+            st.write(yongshui_plot)
             jmd_plot_i = max_i(jmd_z_len,zdm,limitation)
             jmd_plot = jmd_z_len.iloc[jmd_plot_i]
 
