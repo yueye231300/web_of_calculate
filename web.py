@@ -146,7 +146,7 @@ def nl(num_of_lines):
 def limit_1(x,y):
     for i in range(len(x['x'])):
         for j in range(len(y['x'])):
-            if x['x'][i]==y['x'][j]:
+            if x['y'][i]==y['y'][j]:
                 limitation = i
                 return limitation
 
