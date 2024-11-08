@@ -192,10 +192,9 @@ def hebing(x, y):
 
 
 def limit(x,y):
-    len_dif = []
     for i in range(len(x['x'])):
         for j in range(len(y['x'])):
-            if zdm['x'][i]==qiao['x'][j]:
+            if x['x'][i]==y['x'][j]:
                 limitation = i+1
                 return limitation
 
