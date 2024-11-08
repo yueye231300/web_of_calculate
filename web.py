@@ -343,6 +343,7 @@ if zdm_path is not None:
             qiao_lower = qiao['z'].min()
             zdm_yongshui = pd.DataFrame()
             limitation = limit(zdm, hdm)
+            st.write(limitation)
             zdm_plot = zdm_z_len.iloc[:limitation]
             zdm_path_1 = zdm_path_name[-9:-7]
 
