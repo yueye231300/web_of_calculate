@@ -290,7 +290,7 @@ st.header('雍水计算')
 
 st.subheader('流域选择')
 # select the chapter
-chapter = st.selectbox("选择你做的流域", (None, '陡沟', '漳腊河岷江北源段', '漳腊河流域漳腊河', '牟尼沟岷江北源段'))
+chapter = st.selectbox("选择你做的流域", (None, '陡沟', '漳腊河岷江北源段', '漳腊河流域漳腊河', '牟尼沟岷江北源段'，"西沟"))
 if chapter is not None:
     if chapter == '陡沟':
         path = 'bridge/陡沟桥梁数据.csv'
@@ -300,6 +300,8 @@ if chapter is not None:
         path = 'bridge/漳腊河流域漳腊河桥梁数据.csv'
     if chapter == '牟尼沟岷江北源段':
         path = 'bridge/牟尼沟岷江北源段桥梁数据.csv'
+    if chapter == "西沟"
+        path = 'bridge/西沟桥梁数据.csv'
     bridge_path = pd.read_csv(path)
     bridge_path_1 = pd.DataFrame(columns=['name'])
     for i in range(len(bridge_path['名称'])):
