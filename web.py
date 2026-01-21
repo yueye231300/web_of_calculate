@@ -300,7 +300,7 @@ if chapter is not None:
         path = 'bridge/漳腊河流域漳腊河桥梁数据.csv'
     if chapter == '牟尼沟岷江北源段':
         path = 'bridge/牟尼沟岷江北源段桥梁数据.csv'
-    if chapter == "西沟"
+    if chapter == "西沟"：
         path = 'bridge/西沟桥梁数据.csv'
     bridge_path = pd.read_csv(path)
     bridge_path_1 = pd.DataFrame(columns=['name'])
