@@ -352,7 +352,7 @@ if zdm_path is not None:
                 for i in range(len(bridge_path_1['name'])):
                     if bridge_path_1['name'][i]==zdm_path_1:
                         height = bridge_path_1['bridge_length'][i]
-            if chapter == "西沟"：
+            if chapter == "西沟":
                 heigth = height = bridge_path_1['bridge_length'][0]
             else:
                 height = 0
