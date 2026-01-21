@@ -519,9 +519,13 @@ if not any(var is None for var in [zdm_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
     m = 1.5
     lamad = 0.172229748
     if chapter is not None:
-        for i in range(len(bridge_path_1['name'])):
-            if bridge_path_1['name'][i] == zdm_path_1:
-                B = bridge_path_1['B'][i]
+        if chapter == "西沟":
+            B = bridge_path_1['B'][i]
+            H_change = bridge_path_1['H'][i]
+        else:
+            for i in range(len(bridge_path_1['name'])):
+                if bridge_path_1['name'][i] == zdm_path_1:
+                    B = bridge_path_1['B'][i]
     if chapter is not None:
         for i in range(len(bridge_path_1['name'])):
             if bridge_path_1['name'][i] == zdm_path_1:
