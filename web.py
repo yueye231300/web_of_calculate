@@ -547,7 +547,8 @@ if not any(var is None for var in [zdm_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
 
     # 计算阻水库容
     W = 1 / 3 * A * hongxian
-
+    st.write("阻水库容")
+    st.write(W)
     # 流量计算
     Q_lm_zy = calculate_len_Q(W, L_zy)
     Q_lm_xy = calculate_len_Q(W, L_xy)
