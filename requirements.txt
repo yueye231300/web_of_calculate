@@ -2,6 +2,6 @@ matplotlib
 plotly
 pydeck
 altair<5
-pandas >= 1.5.0
-pyarrow >= 11.0.0, < 14.0.0
-streamlit >= 1.28.0
+pandas
+pyarrow 
+streamlit
