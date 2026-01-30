@@ -166,18 +166,20 @@ def hl_calculate(hl_z_len_1,zy_jiedian,xy_jiedian):
 # def method
 def calculate_length(y):
     #x,y is a list and x is used to calculate the length
-    length = pd.DataFrame(columns=['len'])
+    length_list = []
     for i in range(len(y['NEAR_X'])):
         dis = ((y['NEAR_X'][i]-x_beginner)**2+(y['NEAR_Y'][i]-y_beginner)**2)**(0.5)
-        length = pd.concat([length, pd.DataFrame({'len': [dis]})], ignore_index=True)
+        length_list.append({'len': dis})
+    length = pd.DataFrame(length_list)
     return length
 
 
 def calculate_length_x_y(x):
-    length = pd.DataFrame(columns=['len'])
+    length_list = []
     for i in range(len(x['x'])):
         dis = ((x['x'][i] - x_beginner) ** 2 + (x['y'][i] - y_beginner) ** 2) ** (0.5)
-        length = pd.concat([length, pd.DataFrame({'len': [dis]})], ignore_index=True)
+        length_list.append({'len': dis})
+    length = pd.DataFrame(length_list)
     return length
 
 
@@ -303,12 +305,13 @@ if chapter is not None:
     if chapter == "西沟":
         path = 'bridge/西沟桥梁数据.csv'
     bridge_path = pd.read_csv(path)
-    bridge_path_1 = pd.DataFrame(columns=['name'])
+    bridge_path_1_list = []
     if chapter != "西沟":
         for i in range(len(bridge_path['名称'])):
             name_1 = bridge_path['名称'][i]
             name_2 = name_1[-2:]
-            bridge_path_1 = pd.concat([bridge_path_1, pd.DataFrame({'name': [name_2]})], ignore_index=True)
+            bridge_path_1_list.append({'name': name_2})
+    bridge_path_1 = pd.DataFrame(bridge_path_1_list)
     bridge_path_1.insert(bridge_path_1.shape[1], 'bridge_length', bridge_path['桥面高'])
     bridge_path_1.insert(bridge_path_1.shape[1], 'B', bridge_path['桥长'])
     bridge_path_1.insert(bridge_path_1.shape[1], 'H', bridge_path['高差'])
