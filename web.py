@@ -525,8 +525,10 @@ if not any(var is None for var in [zdm_path, qiao_path, jmd_path, hdm_xy_path, h
         for i in range(len(bridge_path_1['name'])):
             if bridge_path_1['name'][i] == zdm_path_1:
                 H_change = bridge_path_1['H'][i]
+                H_ding = bridge_path_1['bridge_length'][i]
     H_1 = H_change ** (3 / 2)
-    S = B * H_change
+    H_0 = (H_ding -zdm["z"][qiao_jiedian])**(3 / 2)
+    S = B * H_0
     g = 3.132091953
     Q_m = lamad * g * B * H_1
     st.write("Q_m 数据是")
