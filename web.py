@@ -36,7 +36,7 @@ class BaseSection(object):
     def radius(self, h: float):
         """水力半径"""
         perimeter = self.perimeter(h)
-        if perimeter == 0:
+        if perimeter <= 0:
             return 0
         return self.area(h) / perimeter
 
@@ -63,9 +63,15 @@ class BaseSection(object):
         element = self.element(h)
         R = element.get("R")
         A = element.get("A")
-        C = 1 / n * R ** (1 / 6)
-        V = C * math.sqrt(R * j)
-        Q = A * V
+        # Ensure R is positive to avoid math errors
+        if R <= 0:
+            C = 0
+            V = 0
+            Q = 0
+        else:
+            C = 1 / n * R ** (1 / 6)
+            V = C * math.sqrt(R * j)
+            Q = A * V
         return {
             **element,
             "C": C,
