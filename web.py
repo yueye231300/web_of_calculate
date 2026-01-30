@@ -284,6 +284,8 @@ st.set_page_config(
     page_title="雍水计算",
     page_icon="👋",
 )
+# Avoid newer Arrow large string types that Streamlit front-end can't decode
+st.set_option('global.dataFrameSerialization', 'legacy')
 
 st.header('雍水计算')
 
