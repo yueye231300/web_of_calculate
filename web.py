@@ -296,6 +296,8 @@ if chapter is not None:
     if chapter == "西沟":
         path = 'bridge/西沟桥梁数据.csv'
     bridge_path = pd.read_csv(path, encoding='utf-8-sig')
+    # Replace NaN and infinity values that could cause decoding errors
+    bridge_path = bridge_path.replace([np.inf, -np.inf], np.nan).fillna('')
     bridge_path_1_list = []
     if chapter != "西沟":
         for i in range(len(bridge_path['名称'])):
@@ -306,8 +308,6 @@ if chapter is not None:
     bridge_path_1.insert(bridge_path_1.shape[1], 'bridge_length', bridge_path['桥面高'])
     bridge_path_1.insert(bridge_path_1.shape[1], 'B', bridge_path['桥长'])
     bridge_path_1.insert(bridge_path_1.shape[1], 'H', bridge_path['高差'])
-    # Replace NaN and infinity values that could cause decoding errors
-    bridge_path = bridge_path.fillna('')
     st.dataframe(bridge_path)
 
 st.subheader("上传数据")
@@ -691,6 +691,8 @@ if not any(var is None for var in [zdm_path, qiao_path, jmd_path, hdm_xy_path, h
             st.write(H_xy_1)
             plot_H = {'height': [height, H_zy_1, H_xy_1], 'len': [0, L_zy, L_xy]}
             plot_H = pd.DataFrame(plot_H)
+            # Replace NaN and infinity values that could cause decoding errors
+            plot_H = plot_H.replace([np.inf, -np.inf], np.nan).fillna(0)
             zdm_plot_2 = zdm.iloc[limitation - 1:]
             jmd_plot_2 = jmd_z_len[~jmd_z_len.index.isin(jmd_plot_i)]
             jmd_plot_2['len'] = jmd_plot_2['len'] - zdm['len'][qiao_jiedian]
@@ -747,8 +749,6 @@ if not any(var is None for var in [zdm_path, qiao_path, jmd_path, hdm_xy_path, h
             # 在 Streamlit 中显示图形
             st.plotly_chart(fig1)
 
-            # Replace NaN and infinity values that could cause decoding errors
-            plot_H = plot_H.replace([np.inf, -np.inf], np.nan).fillna(0)
             st.dataframe(plot_H)
             # 绘制图像，包括深洪线，居民点和流量距离曲线
             fig2, ax = plt.subplots()
