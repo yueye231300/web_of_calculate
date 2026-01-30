@@ -169,7 +169,7 @@ def calculate_length(y):
     length = pd.DataFrame(columns=['len'])
     for i in range(len(y['NEAR_X'])):
         dis = ((y['NEAR_X'][i]-x_beginner)**2+(y['NEAR_Y'][i]-y_beginner)**2)**(0.5)
-        length = length._append({'len':dis},ignore_index=True)
+        length = length.append ({'len':dis},ignore_index=True)
     return length
 
 
@@ -177,7 +177,7 @@ def calculate_length_x_y(x):
     length = pd.DataFrame(columns=['len'])
     for i in range(len(x['x'])):
         dis = ((x['x'][i] - x_beginner) ** 2 + (x['y'][i] - y_beginner) ** 2) ** (0.5)
-        length = length._append({'len': dis}, ignore_index=True)
+        length = length.append ({'len': dis}, ignore_index=True)
     return length
 
 
@@ -308,7 +308,7 @@ if chapter is not None:
         for i in range(len(bridge_path['名称'])):
             name_1 = bridge_path['名称'][i]
             name_2 = name_1[-2:]
-            bridge_path_1 = bridge_path_1._append({'name': name_2}, ignore_index=True)
+            bridge_path_1 = bridge_path_1.append ({'name': name_2}, ignore_index=True)
     bridge_path_1.insert(bridge_path_1.shape[1], 'bridge_length', bridge_path['桥面高'])
     bridge_path_1.insert(bridge_path_1.shape[1], 'B', bridge_path['桥长'])
     bridge_path_1.insert(bridge_path_1.shape[1], 'H', bridge_path['高差'])
