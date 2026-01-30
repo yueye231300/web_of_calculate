@@ -159,7 +159,7 @@ def hl_calculate(hl_z_len_1, zy_jiedian, xy_jiedian):
 
 
 def calculate_length(y):
-    # x, y is a list and x is used to calculate the length
+    # y is a list containing NEAR_X and NEAR_Y data used to calculate the length
     length_list = []
     for i in range(len(y['NEAR_X'])):
         dis = ((y['NEAR_X'][i] - x_beginner) ** 2 + (y['NEAR_Y'][i] - y_beginner) ** 2) ** (0.5)
@@ -339,20 +339,19 @@ if zdm_path is not None:
         zdm_plot = zdm_z_len.iloc[:limitation]
         zdm_path_1 = zdm_path_name[-9:-7]
 
+        height = 0  # Initialize height
         if chapter is not None and chapter != "西沟":
             for i in range(len(bridge_path_1['name'])):
                 if bridge_path_1['name'][i] == zdm_path_1:
                     height = bridge_path_1['bridge_length'][i]
-        if chapter == "西沟":
-            heigth = height = bridge_path_1['bridge_length'][0]
-        else:
-            height = 0
+        elif chapter == "西沟":
+            height = bridge_path_1['bridge_length'][0]
         yongshui_dif = height - qiao_lower
         st.write('桥梁水面高程', height)
         st.write('桥梁横断面最低点', qiao_lower)
         zdm_yongshui.insert(zdm_yongshui.shape[1], 'z', zdm_z_len['z'] + yongshui_dif)
         yongshui_z_len = hebing(zdm_yongshui, zdm)
-        # reshape the date
+        # reshape the data
         # get the limitation
         yongshui_plot = yongshui_z_len[:limitation]
         jmd_plot_i = max_i(jmd_z_len, zdm, limitation)
@@ -764,7 +763,7 @@ if not any(var is None for var in [zdm_path, qiao_path, jmd_path, hdm_xy_path, h
             buffer2 = BytesIO()
             fig2.savefig(buffer2, format='png', bbox_inches='tight', bbox_extra_artists=[legend], dpi=600)  # 确保图例包含在图像中
             buffer2.seek(0)  # 重置缓冲区位置
-            save_result = {'S_shangyou': [A_zy], 'S_xiayou': [A_xy], 'S_duan': [A], 'S_zu': [S], 'R1': [S / A], 'hongxian_l': [hongxian], 'W': [W], 'Q_m': [Q_m], 'Q_m_zhongyou': [Q_lm_zy], 'Q_mxaiyou': [Q_lm_xy],
+            save_result = {'S_shangyou': [A_zy], 'S_xiayou': [A_xy], 'S_duan': [A], 'S_zu': [S], 'R1': [S / A], 'hongxian_l': [hongxian], 'W': [W], 'Q_m': [Q_m], 'Q_m_zhongyou': [Q_lm_zy], 'Q_m_xiayou': [Q_lm_xy],
                            'B': [B], 'H_gaocha': [H_change], 'L_xiayou': [L_xy], 'yongshuidiangaocha': [height - qiao['z'].min()], 'L_zy': [L_zy]}
             save_result = pd.DataFrame(save_result)
 
