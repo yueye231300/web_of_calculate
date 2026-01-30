@@ -325,8 +325,8 @@ if zdm_path is not None:
         zdm_path_name = zdm_path.name
         # st.write(name)
         beginner = zdm.iloc[0, 0:2]
-        x_beginner = beginner[0]
-        y_beginner = beginner[1]
+        x_beginner = beginner.iloc[0]
+        y_beginner = beginner.iloc[1]
         near_file = pd.read_csv(jmd_path)
         len_1 = calculate_length(near_file)
         qiao = pd.read_csv(qiao_path)
