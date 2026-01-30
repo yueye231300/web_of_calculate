@@ -326,7 +326,7 @@ with right_row:
 
 jmd_path = st.file_uploader('居民点（包含near_x与near_y）', type='txt')
 
-radio = st.radio('是否有居民点数据',['1','2'],captions=['有居民点','无居民点'])
+radio = st.radio('是否有居民点数据',['1','2'])
 st.subheader('对应雍水图像')
 if zdm_path is not None:
         if qiao_path is not None and jmd_path is not None:
