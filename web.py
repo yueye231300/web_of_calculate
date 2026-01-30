@@ -315,7 +315,7 @@ if chapter is not None:
     bridge_path_1.insert(bridge_path_1.shape[1], 'bridge_length', bridge_path['桥面高'])
     bridge_path_1.insert(bridge_path_1.shape[1], 'B', bridge_path['桥长'])
     bridge_path_1.insert(bridge_path_1.shape[1], 'H', bridge_path['高差'])
-    st.write(bridge_path)
+    st.dataframe(bridge_path)
 
 st.subheader("上传数据")
 # date load
@@ -760,7 +760,7 @@ if not any(var is None for var in [zdm_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
             # 在 Streamlit 中显示图形
             st.plotly_chart(fig1)
 
-            st.write(plot_H)
+            st.dataframe(plot_H)
             # 绘制图像，包括深洪线，居民点和流量距离曲线
             fig2, ax = plt.subplots()
             if radio == '1':
