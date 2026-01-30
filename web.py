@@ -528,6 +528,7 @@ if not any(var is None for var in [zdm_path, qiao_path, jmd_path, hdm_xy_path, h
                 H_ding = bridge_path_1['bridge_length'][i]
     H_1 = H_change ** (3 / 2)
     H_0 = (H_ding -zdm["z"][qiao_jiedian])**(3 / 2)
+    st.write(H_0)
     S = B * H_0
     g = 3.132091953
     Q_m = lamad * g * B * H_0
