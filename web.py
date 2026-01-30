@@ -284,9 +284,6 @@ st.set_page_config(
     page_title="雍水计算",
     page_icon="👋",
 )
-# Avoid newer Arrow large string types that Streamlit front-end can't decode
-st.set_option('global.dataFrameSerialization', 'legacy')
-
 st.header('雍水计算')
 
 st.subheader('流域选择')
@@ -316,7 +313,7 @@ if chapter is not None:
     bridge_path_1.insert(bridge_path_1.shape[1], 'bridge_length', bridge_path['桥面高'])
     bridge_path_1.insert(bridge_path_1.shape[1], 'B', bridge_path['桥长'])
     bridge_path_1.insert(bridge_path_1.shape[1], 'H', bridge_path['高差'])
-    st.dataframe(bridge_path)
+    st.write(bridge_path)
 
 st.subheader("上传数据")
 # date load
@@ -626,7 +623,7 @@ if not any(var is None for var in [zdm_path, qiao_path, jmd_path, hdm_xy_path, h
     st.subheader('水位与流量及断面面积表格')
     # Replace NaN and infinity values that could cause decoding errors
     df_results = df_results.replace([np.inf, -np.inf], np.nan).fillna(0)
-    st.dataframe(df_results)
+    st.write(df_results)
     st.subheader('多支汇流计算')
     hl_path = st.file_uploader('多支汇流数据', type='csv')
     if hl_path is not None:
@@ -757,7 +754,7 @@ if not any(var is None for var in [zdm_path, qiao_path, jmd_path, hdm_xy_path, h
             # 在 Streamlit 中显示图形
             st.plotly_chart(fig1)
 
-            st.dataframe(plot_H)
+            st.write(plot_H)
             # 绘制图像，包括深洪线，居民点和流量距离曲线
             fig2, ax = plt.subplots()
             if radio == '1':
