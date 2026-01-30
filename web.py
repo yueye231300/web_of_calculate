@@ -35,7 +35,10 @@ class BaseSection(object):
 
     def radius(self, h: float):
         """水力半径"""
-        return self.area(h) / self.perimeter(h)
+        perimeter = self.perimeter(h)
+        if perimeter <= 0:
+            return 0
+        return self.area(h) / perimeter
 
     def element(self, h: float):
         """水力要素计算结果"""
@@ -60,9 +63,15 @@ class BaseSection(object):
         element = self.element(h)
         R = element.get("R")
         A = element.get("A")
-        C = 1 / n * R ** (1 / 6)
-        V = C * math.sqrt(R * j)
-        Q = A * V
+        # Ensure R is positive to avoid math errors
+        if R <= 0:
+            C = 0
+            V = 0
+            Q = 0
+        else:
+            C = 1 / n * R ** (1 / 6)
+            V = C * math.sqrt(R * j)
+            Q = A * V
         return {
             **element,
             "C": C,
@@ -292,7 +301,9 @@ if chapter is not None:
         path = 'bridge/牟尼沟岷江北源段桥梁数据.csv'
     if chapter == "西沟":
         path = 'bridge/西沟桥梁数据.csv'
-    bridge_path = pd.read_csv(path)
+    bridge_path = pd.read_csv(path, encoding='utf-8-sig')
+    # Replace NaN and infinity values that could cause decoding errors
+    bridge_path = bridge_path.replace([np.inf, -np.inf], np.nan).fillna('')
     bridge_path_1_list = []
     if chapter != "西沟":
         for i in range(len(bridge_path['名称'])):
@@ -321,15 +332,15 @@ radio = st.radio('是否有居民点数据', ['1', '2'])
 st.subheader('对应雍水图像')
 if zdm_path is not None:
     if qiao_path is not None and jmd_path is not None:
-        zdm = pd.read_csv(zdm_path)
+        zdm = pd.read_csv(zdm_path, encoding='utf-8-sig')
         zdm_path_name = zdm_path.name
         # st.write(name)
         beginner = zdm.iloc[0, 0:2]
         x_beginner = beginner.iloc[0]
         y_beginner = beginner.iloc[1]
-        near_file = pd.read_csv(jmd_path)
+        near_file = pd.read_csv(jmd_path, encoding='utf-8-sig')
         len_1 = calculate_length(near_file)
-        qiao = pd.read_csv(qiao_path)
+        qiao = pd.read_csv(qiao_path, encoding='utf-8-sig')
         hdm = qiao
         jmd_z_len = hebing(near_file, len_1)
         zdm_z_len = hebing(zdm, zdm)
@@ -465,8 +476,8 @@ if date_check:
         st.error('请上传所有数据')
 
 if not any(var is None for var in [zdm_path, qiao_path, jmd_path, hdm_xy_path, hdm_zy_path]):
-    hdm_zy = pd.read_csv(hdm_zy_path)
-    hdm_xy = pd.read_csv(hdm_xy_path)
+    hdm_zy = pd.read_csv(hdm_zy_path, encoding='utf-8-sig')
+    hdm_xy = pd.read_csv(hdm_xy_path, encoding='utf-8-sig')
     # 获得z_len数据
     hdm_zy_z_len = hebing(hdm_zy, hdm_zy)
     hdm_xy_z_len = hebing(hdm_xy, hdm_xy)
@@ -611,11 +622,13 @@ if not any(var is None for var in [zdm_path, qiao_path, jmd_path, hdm_xy_path, h
     st.plotly_chart(fig)
     # 显示结果表格
     st.subheader('水位与流量及断面面积表格')
+    # Replace NaN and infinity values that could cause decoding errors
+    df_results = df_results.replace([np.inf, -np.inf], np.nan).fillna(0)
     st.dataframe(df_results)
     st.subheader('多支汇流计算')
     hl_path = st.file_uploader('多支汇流数据', type='csv')
     if hl_path is not None:
-        hl = pd.read_csv(hl_path)
+        hl = pd.read_csv(hl_path, encoding='utf-8-sig')
         hl_length = calculate_length_x_y(hl)
         hl_z_len = hebing(hl, hl_length)
         zy_hl, xy_hl = hl_calculate(hl_z_len, hdm_zy_jiedian, hdm_xy_jiedian)
@@ -684,6 +697,8 @@ if not any(var is None for var in [zdm_path, qiao_path, jmd_path, hdm_xy_path, h
             st.write(H_xy_1)
             plot_H = {'height': [height, H_zy_1, H_xy_1], 'len': [0, L_zy, L_xy]}
             plot_H = pd.DataFrame(plot_H)
+            # Replace NaN and infinity values that could cause decoding errors
+            plot_H = plot_H.replace([np.inf, -np.inf], np.nan).fillna(0)
             zdm_plot_2 = zdm.iloc[limitation - 1:]
             jmd_plot_2 = jmd_z_len[~jmd_z_len.index.isin(jmd_plot_i)]
             jmd_plot_2['len'] = jmd_plot_2['len'] - zdm['len'][qiao_jiedian]
