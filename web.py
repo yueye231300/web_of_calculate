@@ -534,7 +534,7 @@ if not any(var is None for var in [zdm_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
     S = B *  H_change
     g = 3.132091953
     Q_m = lamad * g * B * H_1
-    st.write("Q_m 数据是"
+    st.write("Q_m 数据是")
     st.write(Q_m)
     v = 5
     k = 1.3
