@@ -444,7 +444,7 @@ if zdm_path is not None:
 
         # 保存图像并包含图例
         buffer = BytesIO()
-        fig.savefig(buffer, format='png', bbox_inches='tight', bbox_extra_artists=[legend], dpi=600)  # 确保图例包含在图像中
+        fig.savefig(buffer, format='png', bbox_inches='tight', bbox_extra_artists=[legend], dpi=1200)  # 确保图例包含在图像中
         buffer.seek(0)  # 重置缓冲区位置
 
         # 将数据框转换为 CSV 格式
@@ -777,7 +777,7 @@ if not any(var is None for var in [zdm_path, qiao_path, jmd_path, hdm_xy_path, h
             left_columns_5, right_columns_5 = st.columns(2)
             # 保存图像并包含图例
             buffer2 = BytesIO()
-            fig2.savefig(buffer2, format='png', bbox_inches='tight', bbox_extra_artists=[legend], dpi=600)  # 确保图例包含在图像中
+            fig2.savefig(buffer2, format='png', bbox_inches='tight', bbox_extra_artists=[legend], dpi=1200)  # 确保图例包含在图像中
             buffer2.seek(0)  # 重置缓冲区位置
             save_result = {'S_shangyou': [A_zy], 'S_xiayou': [A_xy], 'S_duan': [A], 'S_zu': [S], 'R1': [S / A], 'hongxian_l': [hongxian], 'W': [W], 'Q_m': [Q_m], 'Q_m_zhongyou': [Q_lm_zy], 'Q_m_xiayou': [Q_lm_xy],
                            'B': [B], 'H_gaocha': [H_change], 'L_xiayou': [L_xy], 'yongshuidiangaocha': [height - qiao['z'].min()], 'L_zy': [L_zy]}
