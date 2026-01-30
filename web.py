@@ -534,6 +534,8 @@ if not any(var is None for var in [zdm_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
     S = B *  H_change
     g = 3.132091953
     Q_m = lamad * g * B * H_1
+    st.write("Q_m 数据是"
+    st.write(Q_m)
     v = 5
     k = 1.3
     zdm_pojaing = zdm
@@ -683,10 +685,19 @@ if not any(var is None for var in [zdm_path,qiao_path,jmd_path,hdm_xy_path,hdm_z
         if not any(var is None for var in [zy_hl, xy_hl]):
             Q_lm_zy_hl = Q_lm_zy + zy_hl
             Q_lm_xy_hl = Q_lm_xy + zy_hl +xy_hl
+            st.write("汇流数据如下")
+            st.write("中游流量数据")
+            st.write(Q_lm_zy_hl)
+            st.write("下游流量数据")
+            st.write(Q_lm_xy_hl)
             H_zy = find_water_level(qiao_section,Q_lm_zy_hl,0.03,0.01)
             H_zy_1 = H_zy+hdm_zy_z_len['z'].min()
+            st.write("中游水位")
+            st.write(H_zy_1)
             H_xy = find_water_level(qiao_section,Q_lm_xy_hl,0.03,0.01)
             H_xy_1 = H_xy+hdm_xy_z_len['z'].min()
+            st.write("下游水位")
+            st.write(H_xy_1)
             plot_H = {'height':[height,H_zy_1,H_xy_1],'len':[0,L_zy,L_xy]}
             plot_H = pd.DataFrame(plot_H)
             zdm_plot_2 = zdm.iloc[limitation-1:]
